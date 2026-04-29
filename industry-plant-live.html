@@ -1,0 +1,436 @@
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>There's no such thing as an Industry Plant 🌱</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0a0a0a; --white: #f5f2ee; --accent: #e8471c; --accent2: #f7b731;
+    --muted: #7a7469; --border: rgba(245,242,238,0.1);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--black); color: var(--white); font-family: 'DM Sans', sans-serif; min-height: 100vh; overflow-x: hidden; }
+
+  /* HEADER */
+  header { position: relative; padding: 40px 48px 32px; border-bottom: 1px solid var(--border); overflow: hidden; }
+  header::before {
+    content: ''; position: absolute; inset: 0; pointer-events: none;
+    background: radial-gradient(ellipse 70% 80% at 10% 50%, rgba(232,71,28,0.12) 0%, transparent 60%),
+                radial-gradient(ellipse 40% 60% at 90% 20%, rgba(247,183,49,0.06) 0%, transparent 50%);
+  }
+  .header-eyebrow { font-size: 11px; font-weight: 500; letter-spacing: 0.25em; text-transform: uppercase; color: var(--accent); margin-bottom: 12px; display: flex; align-items: center; gap: 10px; }
+  .header-eyebrow::before { content: ''; display: inline-block; width: 28px; height: 2px; background: var(--accent); }
+  h1 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(36px, 5vw, 72px); line-height: 0.9; letter-spacing: 0.02em; margin-bottom: 14px; }
+  h1 span { color: var(--accent); }
+  .header-sub { font-size: 13px; font-weight: 300; color: var(--muted); max-width: 500px; line-height: 1.6; }
+  .header-count { position: absolute; right: 48px; top: 40px; font-family: 'Bebas Neue', sans-serif; font-size: 80px; color: rgba(255,255,255,0.03); line-height: 1; pointer-events: none; user-select: none; }
+
+  /* LOADING */
+  .loading-screen { position: fixed; inset: 0; background: var(--black); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; gap: 20px; transition: opacity 0.4s; }
+  .loading-screen.done { opacity: 0; pointer-events: none; }
+  .loading-spinner { width: 36px; height: 36px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; }
+  .loading-text { font-size: 13px; color: var(--muted); letter-spacing: 0.1em; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ERROR BANNER */
+  .error-banner { display: none; background: rgba(232,71,28,0.1); border: 1px solid rgba(232,71,28,0.3); padding: 20px 48px; color: var(--accent); font-size: 13px; line-height: 1.6; }
+  .error-banner a { color: var(--accent); }
+
+  /* FILTER */
+  .filter-section { padding: 22px 48px; border-bottom: 1px solid var(--border); display: flex; flex-direction: column; gap: 12px; position: sticky; top: 0; z-index: 100; background: rgba(10,10,10,0.94); backdrop-filter: blur(16px); }
+  .filter-row { display: flex; align-items: center; gap: 12px; min-width: 0; }
+  .filter-label { font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); font-weight: 500; white-space: nowrap; min-width: 56px; flex-shrink: 0; }
+  .filter-pills { display: flex; gap: 6px; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; padding-bottom: 2px; flex: 1; min-width: 0; }
+  .filter-pills::-webkit-scrollbar { display: none; }
+  .pill { padding: 6px 13px; border-radius: 100px; font-size: 12px; font-weight: 400; cursor: pointer; transition: all 0.18s ease; border: 1px solid var(--border); background: transparent; color: var(--muted); white-space: nowrap; letter-spacing: 0.02em; scroll-snap-align: start; flex-shrink: 0; }
+  .pill:hover { border-color: rgba(245,242,238,0.3); color: var(--white); }
+  /* ALL pill resets everything */
+  #typePills .pill[data-type="all"].active,
+  #focusPills .pill[data-focus="all"].active { background: rgba(245,242,238,0.1); border-color: rgba(245,242,238,0.2); color: var(--white); }
+  /* type pills multi-active */
+  #typePills .pill.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+  [data-focus="women"].active      { background: #b84470; border-color: #b84470; color: #fff; }
+  [data-focus="nonbinary"].active  { background: #4a7ec4; border-color: #4a7ec4; color: #fff; }
+  [data-focus="queer"].active      { background: #8c44b8; border-color: #8c44b8; color: #fff; }
+  [data-focus="trans"].active      { background: #2d9abf; border-color: #2d9abf; color: #fff; }
+  [data-focus="lgbtq"].active      { background: #6b3fb4; border-color: #6b3fb4; color: #fff; }
+  [data-focus="bipoc"].active      { background: #9a3d2d; border-color: #9a3d2d; color: #fff; }
+  [data-focus="disability"].active { background: #3d7a5a; border-color: #3d7a5a; color: #fff; }
+  [data-focus="student"].active    { background: #9a6e2d; border-color: #9a6e2d; color: #fff; }
+  [data-focus="parenting"].active  { background: #b48b2d; border-color: #b48b2d; color: #fff; }
+  [data-role="mentor"].active  { background: #c47a1a; border-color: #c47a1a; color: #fff; }
+  [data-role="mentee"].active  { background: #1a8fc4; border-color: #1a8fc4; color: #fff; }
+  [data-role="both"].active    { background: #3a7a3a; border-color: #3a7a3a; color: #fff; }
+  .search-wrap { margin-left: auto; position: relative; flex-shrink: 0; }
+  .search-wrap svg { position: absolute; left: 13px; top: 50%; transform: translateY(-50%); width: 14px; height: 14px; stroke: var(--muted); }
+  #search { background: rgba(255,255,255,0.04); border: 1px solid var(--border); border-radius: 100px; padding: 7px 16px 7px 34px; color: var(--white); font-family: 'DM Sans', sans-serif; font-size: 13px; width: 210px; outline: none; transition: border-color 0.2s; }
+  #search::placeholder { color: var(--muted); }
+  #search:focus { border-color: rgba(245,242,238,0.3); }
+
+  /* RESULTS */
+  .results-bar { padding: 16px 48px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+  .results-count { font-size: 12px; color: var(--muted); }
+  .results-count strong { color: var(--white); font-weight: 500; }
+  .clear-btn { font-size: 11px; color: var(--accent); background: transparent; border: 1px solid rgba(232,71,28,0.3); border-radius: 100px; padding: 4px 12px; cursor: pointer; letter-spacing: 0.05em; transition: all 0.18s; display: none; }
+  .clear-btn:hover { background: rgba(232,71,28,0.1); }
+  .clear-btn.visible { display: inline-block; }
+
+  /* GRID */
+  .grid { padding: 8px 48px 80px; display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1px; background: var(--border); }
+
+  /* CARD */
+  .card { background: var(--black); padding: 28px; display: flex; flex-direction: column; gap: 10px; transition: background 0.2s; position: relative; overflow: hidden; animation: fadeUp 0.4s ease both; }
+  .card::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 80% 60% at 0% 100%, rgba(232,71,28,0.06) 0%, transparent 60%); opacity: 0; transition: opacity 0.3s; pointer-events: none; }
+  .card:hover { background: #111; }
+  .card:hover::before { opacity: 1; }
+  .card-type { display: inline-flex; align-items: center; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 500; padding: 3px 9px; border-radius: 4px; width: fit-content; }
+  .type-community   { background: rgba(232,71,28,0.12);   color: #e8471c; }
+  .type-advocacy    { background: rgba(247,183,49,0.12);   color: #f7b731; }
+  .type-safety      { background: rgba(100,220,180,0.12);  color: #64dcb4; }
+  .type-audio       { background: rgba(160,120,255,0.12);  color: #a078ff; }
+  .type-live        { background: rgba(255,120,160,0.12);  color: #ff78a0; }
+  .type-wellness    { background: rgba(80,200,240,0.12);   color: #50c8f0; }
+  .type-education   { background: rgba(200,240,80,0.12);   color: #b8d440; }
+  .type-resource    { background: rgba(200,200,200,0.1);   color: #aaa; }
+  .type-mentorship  { background: rgba(255,165,50,0.12);   color: #ffa530; }
+  .type-profdev     { background: rgba(100,180,255,0.12);  color: #64b4ff; }
+  .type-mentalhealth { background: rgba(180,120,220,0.12); color: #c080e8; }
+  .card-name { font-family: 'Bebas Neue', sans-serif; font-size: 24px; letter-spacing: 0.04em; color: var(--white); line-height: 1; }
+  .card-desc { font-size: 13px; font-weight: 300; color: var(--muted); line-height: 1.65; flex: 1; }
+  .card-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+  .ftag { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; padding: 2px 7px; border-radius: 3px; }
+  .ftag-women      { background: rgba(184,68,112,0.12);  color: #e080a8; border: 1px solid rgba(184,68,112,0.22); }
+  .ftag-nonbinary  { background: rgba(74,126,196,0.12);  color: #80a8e0; border: 1px solid rgba(74,126,196,0.22); }
+  .ftag-queer      { background: rgba(140,68,184,0.12);  color: #c080e0; border: 1px solid rgba(140,68,184,0.22); }
+  .ftag-trans      { background: rgba(45,154,191,0.12);  color: #70cce8; border: 1px solid rgba(45,154,191,0.22); }
+  .ftag-lgbtq      { background: rgba(107,63,180,0.12);  color: #aa80e0; border: 1px solid rgba(107,63,180,0.22); }
+  .ftag-bipoc      { background: rgba(154,61,45,0.12);   color: #d88070; border: 1px solid rgba(154,61,45,0.22); }
+  .ftag-disability { background: rgba(61,122,90,0.12);   color: #70c4a0; border: 1px solid rgba(61,122,90,0.22); }
+  .ftag-student    { background: rgba(154,110,45,0.12);  color: #d8a870; border: 1px solid rgba(154,110,45,0.22); }
+  .ftag-parenting  { background: rgba(180,139,45,0.12);  color: #e0c070; border: 1px solid rgba(180,139,45,0.22); }
+  .rtag { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; padding: 2px 7px; border-radius: 3px; display: inline-flex; align-items: center; gap: 4px; }
+  .rtag::before { content: ''; width: 5px; height: 5px; border-radius: 50%; display: inline-block; flex-shrink: 0; }
+  .rtag-mentor { background: rgba(196,122,26,0.12); color: #e09040; border: 1px solid rgba(196,122,26,0.22); }
+  .rtag-mentor::before { background: #e09040; }
+  .rtag-mentee { background: rgba(26,143,196,0.12); color: #50b8e8; border: 1px solid rgba(26,143,196,0.22); }
+  .rtag-mentee::before { background: #50b8e8; }
+  .rtag-both   { background: rgba(58,122,58,0.12);  color: #70c870; border: 1px solid rgba(58,122,58,0.22); }
+  .rtag-both::before { background: #70c870; }
+  .card-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 14px; border-top: 1px solid var(--border); margin-top: 4px; }
+  .card-note { font-size: 11px; color: var(--accent2); font-style: italic; font-weight: 300; }
+  .card-link { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; color: var(--white); text-decoration: none; opacity: 0.45; transition: opacity 0.2s; }
+  .card-link:hover { opacity: 1; }
+  .card-link svg { width: 11px; height: 11px; stroke: currentColor; }
+  .empty { grid-column: 1/-1; padding: 80px; text-align: center; color: var(--muted); }
+  .empty p { font-size: 15px; font-weight: 300; }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+
+  footer { border-top: 1px solid var(--border); padding: 28px 48px; display: flex; align-items: center; justify-content: space-between; color: var(--muted); font-size: 12px; letter-spacing: 0.05em; flex-wrap: wrap; gap: 8px; }
+  footer a { color: var(--accent); text-decoration: none; }
+
+  @media (max-width: 640px) {
+    header, .filter-section, .results-bar, .grid, footer { padding-left: 20px; padding-right: 20px; }
+    .grid { grid-template-columns: 1fr; }
+    .search-wrap { margin-left: 0; width: 100%; }
+    #search { width: 100%; }
+    .header-count { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Loading screen -->
+<div class="loading-screen" id="loadingScreen">
+  <div class="loading-spinner"></div>
+  <div class="loading-text">Loading resources…</div>
+</div>
+
+<!-- Error banner (shown if sheet isn't published) -->
+<div class="error-banner" id="errorBanner">
+  ⚠️ Couldn't load data from Google Sheets. Make sure the sheet is published:
+  <strong>File → Share → Publish to web → Publish</strong>.
+  Then reload this page. <a href="#" onclick="loadData()">Try again</a>
+</div>
+
+<header>
+  <div class="header-eyebrow">There's no such thing as an Industry Plant 🌱</div>
+  <h1>MUSIC<br><span>INDUSTRY</span><br>RESOURCES</h1>
+  <p class="header-sub">A curated directory of organizations, communities, collectives, and general resources for everyone.</p>
+  <div class="header-count" id="headerCount"></div>
+</header>
+
+<div class="filter-section">
+  <div class="filter-row">
+    <span class="filter-label">Category</span>
+    <div class="filter-pills" id="typePills">
+      <button class="pill active" data-type="all">All</button>
+      <button class="pill" data-type="community">Community</button>
+      <button class="pill" data-type="advocacy">Advocacy</button>
+      <button class="pill" data-type="safety">Safety</button>
+      <button class="pill" data-type="audio">Audio & Production</button>
+      <button class="pill" data-type="live">Live & Events</button>
+      <button class="pill" data-type="wellness">Wellness</button>
+      <button class="pill" data-type="education">Education</button>
+      <button class="pill" data-type="resource">Tools & Resources</button>
+      <button class="pill" data-type="mentorship">Mentorship</button>
+      <button class="pill" data-type="profdev">Professional Dev</button>
+      <button class="pill" data-type="mentalhealth">Mental Health</button>
+    </div>
+  </div>
+  <div class="filter-row">
+    <span class="filter-label">Focus</span>
+    <div class="filter-pills" id="focusPills">
+      <button class="pill active" data-focus="all">All</button>
+      <button class="pill" data-focus="women">Women</button>
+      <button class="pill" data-focus="nonbinary">Non-Binary</button>
+      <button class="pill" data-focus="queer">Queer</button>
+      <button class="pill" data-focus="trans">Trans</button>
+      <button class="pill" data-focus="lgbtq">LGBTQ+</button>
+      <button class="pill" data-focus="bipoc">BIPOC</button>
+      <button class="pill" data-focus="disability">Disability</button>
+      <button class="pill" data-focus="student">Student</button>
+      <button class="pill" data-focus="parenting">Parenting</button>
+    </div>
+  </div>
+  <div class="filter-row">
+    <span class="filter-label">Role</span>
+    <div class="filter-pills" id="rolePills">
+      <button class="pill active" data-role="all">All</button>
+      <button class="pill" data-role="mentor">Open to Mentors</button>
+      <button class="pill" data-role="mentee">Open to Mentees</button>
+      <button class="pill" data-role="both">Both</button>
+    </div>
+    <div class="search-wrap">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      </svg>
+      <input type="text" id="search" placeholder="Search organizations…">
+    </div>
+  </div>
+</div>
+
+<div class="results-bar">
+  <div class="results-count" id="resultsCount"></div>
+  <button class="clear-btn" id="clearBtn">✕ Clear filters</button>
+</div>
+
+<div class="grid" id="grid"></div>
+
+<footer>
+  <span>There's no such thing as an Industry Plant 🌱</span>
+  <span>See a mistake? Something to add? Want to tell us something? <a href="mailto:md@marissadevito.com">Drop us a note</a></span>
+</footer>
+
+<script>
+// ─── CONFIG ──────────────────────────────────────────────────────────────────
+// Replace SHEET_ID with your Google Sheet ID (the long string in the URL)
+// The sheet must be published: File → Share → Publish to web → Publish
+const SHEET_ID = '1j1VLbVeX6-ezFFY486U8aQ_QZ38KMzI6FcLfhIjd81c';
+const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv`;
+
+// ─── LABELS ──────────────────────────────────────────────────────────────────
+const typeLabels = {
+  community:"Community", advocacy:"Advocacy", safety:"Safety",
+  audio:"Audio & Production", live:"Live & Events", wellness:"Wellness",
+  education:"Education", resource:"Tools & Resources", mentorship:"Mentorship",
+  profdev:"Professional Dev", mentalhealth:"Mental Health"
+};
+const focusLabels = {
+  women:"Women", nonbinary:"Non-Binary", queer:"Queer", trans:"Trans",
+  lgbtq:"LGBTQ+", bipoc:"BIPOC", disability:"Disability", student:"Student",
+  parenting:"Parenting"
+};
+const roleLabels = { mentor:"Open to Mentors", mentee:"Open to Mentees", both:"Open to Both" };
+
+// ─── STATE ────────────────────────────────────────────────────────────────────
+let resources   = [];
+let activeTypes  = new Set(); // empty = all
+let activeFocuses = new Set(); // empty = all
+let activeRole   = "all";
+let searchQuery  = "";
+
+// ─── CSV PARSER ───────────────────────────────────────────────────────────────
+function parseCSV(text) {
+  const lines = text.trim().split('\n');
+  const headers = parseCSVLine(lines[0]).map(h => h.trim().toLowerCase());
+  return lines.slice(1).map(line => {
+    const vals = parseCSVLine(line);
+    const obj = {};
+    headers.forEach((h, i) => obj[h] = (vals[i] || '').trim());
+    return obj;
+  });
+}
+
+function parseCSVLine(line) {
+  const result = [];
+  let current = '';
+  let inQuotes = false;
+  for (let i = 0; i < line.length; i++) {
+    const ch = line[i];
+    if (ch === '"') {
+      if (inQuotes && line[i+1] === '"') { current += '"'; i++; }
+      else inQuotes = !inQuotes;
+    } else if (ch === ',' && !inQuotes) {
+      result.push(current); current = '';
+    } else {
+      current += ch;
+    }
+  }
+  result.push(current);
+  return result;
+}
+
+// ─── FETCH DATA ───────────────────────────────────────────────────────────────
+async function loadData() {
+  document.getElementById('errorBanner').style.display = 'none';
+  document.getElementById('loadingScreen').classList.remove('done');
+  try {
+    const res = await fetch(SHEET_URL);
+    if (!res.ok) throw new Error('Network error');
+    const text = await res.text();
+    const rows = parseCSV(text);
+    resources = rows
+      .filter(r => r.name && r.name.trim())
+      .map(r => ({
+        name: r.name,
+        url: r.url || '',
+        desc: r.description || '',
+        type: (r.type || '').toLowerCase().trim(),
+        focus: r.focus ? r.focus.split('|').map(f => f.trim().toLowerCase()).filter(Boolean) : [],
+        role: (r.role || '').toLowerCase().trim() || null,
+        tracks: r.tracks ? r.tracks.split('|').map(t => t.trim()).filter(Boolean) : [],
+        who: r.who || '',
+        note: r.note || ''
+      }));
+    buildCards();
+    document.getElementById('loadingScreen').classList.add('done');
+  } catch (e) {
+    document.getElementById('loadingScreen').classList.add('done');
+    document.getElementById('errorBanner').style.display = 'block';
+    console.error('Failed to load sheet:', e);
+  }
+}
+
+// ─── RENDER ───────────────────────────────────────────────────────────────────
+function buildCards() {
+  const grid = document.getElementById("grid");
+  grid.innerHTML = "";
+  const q = searchQuery.toLowerCase();
+  const filtered = resources.filter(r => {
+    const matchType   = activeTypes.size === 0 || activeTypes.has(r.type);
+    const matchFocus  = activeFocuses.size === 0 || r.focus.some(f => activeFocuses.has(f));
+    const matchRole   = activeRole === "all" || !r.role || r.role === activeRole || r.role === "both";
+    const matchSearch = !q || r.name.toLowerCase().includes(q) || r.desc.toLowerCase().includes(q) || r.who.toLowerCase().includes(q);
+    return matchType && matchFocus && matchRole && matchSearch;
+  });
+
+  const count = filtered.length;
+  const hasFilters = activeTypes.size > 0 || activeFocuses.size > 0 || activeRole !== "all" || searchQuery;
+  document.getElementById("resultsCount").innerHTML = `<strong>${count}</strong> organization${count !== 1 ? "s" : ""}`;
+  document.getElementById("headerCount").textContent = count;
+  document.getElementById("clearBtn").classList.toggle("visible", !!hasFilters);
+
+  if (count === 0) {
+    grid.innerHTML = `<div class="empty"><p>No results found. Try a different filter or search term.</p></div>`;
+    return;
+  }
+
+  filtered.forEach((r, i) => {
+    const card = document.createElement("div");
+    card.className = "card";
+    card.style.animationDelay = `${i * 20}ms`;
+    const tagsHTML = r.focus.map(f => focusLabels[f] ? `<span class="ftag ftag-${f}">${focusLabels[f]}</span>` : '').join("");
+    const roleHTML = r.role && roleLabels[r.role] ? `<span class="rtag rtag-${r.role}">${roleLabels[r.role]}</span>` : "";
+    const tracksHTML = r.tracks.map(t => `<span style="font-size:10px;color:var(--muted);background:rgba(255,255,255,0.04);padding:2px 7px;border-radius:3px;">${t}</span>`).join("");
+    const whoHTML = r.who ? `<p style="font-size:11px;color:var(--muted);font-style:italic;line-height:1.5;"><span style="color:rgba(245,242,238,0.4);font-style:normal;font-size:9px;text-transform:uppercase;letter-spacing:0.06em;">Who: </span>${r.who}</p>` : "";
+    const typeLabel = typeLabels[r.type] || r.type;
+    card.innerHTML = `
+      <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;">
+        <span class="card-type type-${r.type}">${typeLabel}</span>
+        ${roleHTML}
+      </div>
+      <div class="card-name">${r.name}</div>
+      <p class="card-desc">${r.desc}</p>
+      ${tracksHTML ? `<div class="card-tags" style="gap:4px;">${tracksHTML}</div>` : ""}
+      ${whoHTML}
+      ${tagsHTML ? `<div class="card-tags">${tagsHTML}</div>` : ""}
+      <div class="card-footer">
+        <span class="card-note">${r.note}</span>
+        ${r.url ? `<a class="card-link" href="${r.url}" target="_blank" rel="noopener">Visit <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>` : ""}
+      </div>`;
+    grid.appendChild(card);
+  });
+}
+
+// ─── EVENTS ───────────────────────────────────────────────────────────────────
+
+function syncPills(groupId, activeSet, allAttr) {
+  document.querySelectorAll(`#${groupId} .pill`).forEach(p => {
+    const val = p.dataset[allAttr];
+    if (val === "all") {
+      p.classList.toggle("active", activeSet.size === 0);
+    } else {
+      p.classList.toggle("active", activeSet.has(val));
+    }
+  });
+}
+
+document.getElementById("typePills").addEventListener("click", e => {
+  const btn = e.target.closest("[data-type]"); if (!btn) return;
+  const val = btn.dataset.type;
+  if (val === "all") {
+    activeTypes.clear();
+  } else {
+    if (activeTypes.has(val)) activeTypes.delete(val);
+    else activeTypes.add(val);
+  }
+  syncPills("typePills", activeTypes, "type");
+  buildCards();
+});
+
+document.getElementById("focusPills").addEventListener("click", e => {
+  const btn = e.target.closest("[data-focus]"); if (!btn) return;
+  const val = btn.dataset.focus;
+  if (val === "all") {
+    activeFocuses.clear();
+  } else {
+    if (activeFocuses.has(val)) activeFocuses.delete(val);
+    else activeFocuses.add(val);
+  }
+  syncPills("focusPills", activeFocuses, "focus");
+  buildCards();
+});
+
+document.getElementById("rolePills").addEventListener("click", e => {
+  const btn = e.target.closest("[data-role]"); if (!btn) return;
+  document.querySelectorAll("#rolePills .pill").forEach(p => p.classList.remove("active"));
+  btn.classList.add("active"); activeRole = btn.dataset.role; buildCards();
+});
+
+document.getElementById("clearBtn").addEventListener("click", () => {
+  activeTypes.clear();
+  activeFocuses.clear();
+  activeRole = "all";
+  searchQuery = "";
+  document.getElementById("search").value = "";
+  syncPills("typePills", activeTypes, "type");
+  syncPills("focusPills", activeFocuses, "focus");
+  document.querySelectorAll("#rolePills .pill").forEach(p => p.classList.toggle("active", p.dataset.role === "all"));
+  buildCards();
+});
+
+let debounce;
+document.getElementById("search").addEventListener("input", e => {
+  clearTimeout(debounce);
+  debounce = setTimeout(() => { searchQuery = e.target.value; buildCards(); }, 150);
+});
+
+// ─── INIT ─────────────────────────────────────────────────────────────────────
+syncPills("typePills", activeTypes, "type");
+syncPills("focusPills", activeFocuses, "focus");
+loadData();
+</script>
+</body>
+</html>
