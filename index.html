@@ -14,11 +14,9 @@
 
   /* HEADER */
   header { position: relative; padding: 40px 48px 32px; border-bottom: 1px solid var(--border); overflow: hidden; }
-  header::before {
-    content: ''; position: absolute; inset: 0; pointer-events: none;
+  header::before { content: ''; position: absolute; inset: 0; pointer-events: none;
     background: radial-gradient(ellipse 70% 80% at 10% 50%, rgba(232,71,28,0.12) 0%, transparent 60%),
-                radial-gradient(ellipse 40% 60% at 90% 20%, rgba(247,183,49,0.06) 0%, transparent 50%);
-  }
+                radial-gradient(ellipse 40% 60% at 90% 20%, rgba(247,183,49,0.06) 0%, transparent 50%); }
   .header-eyebrow { font-size: 11px; font-weight: 500; letter-spacing: 0.25em; text-transform: uppercase; color: var(--accent); margin-bottom: 12px; display: flex; align-items: center; gap: 10px; }
   .header-eyebrow::before { content: ''; display: inline-block; width: 28px; height: 2px; background: var(--accent); }
   h1 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(36px, 5vw, 72px); line-height: 0.9; letter-spacing: 0.02em; margin-bottom: 14px; }
@@ -26,53 +24,49 @@
   .header-sub { font-size: 13px; font-weight: 300; color: var(--muted); max-width: 500px; line-height: 1.6; }
   .header-count { position: absolute; right: 48px; top: 40px; font-family: 'Bebas Neue', sans-serif; font-size: 80px; color: rgba(255,255,255,0.03); line-height: 1; pointer-events: none; user-select: none; }
 
-  /* LOADING */
-  .loading-screen { position: fixed; inset: 0; background: var(--black); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; gap: 20px; transition: opacity 0.4s; }
-  .loading-screen.done { opacity: 0; pointer-events: none; }
-  .loading-spinner { width: 36px; height: 36px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; }
-  .loading-text { font-size: 13px; color: var(--muted); letter-spacing: 0.1em; }
-  @keyframes spin { to { transform: rotate(360deg); } }
-
-  /* ERROR BANNER */
-  .error-banner { display: none; background: rgba(232,71,28,0.1); border: 1px solid rgba(232,71,28,0.3); padding: 20px 48px; color: var(--accent); font-size: 13px; line-height: 1.6; }
-  .error-banner a { color: var(--accent); }
-
   /* FILTER */
-  .filter-section { padding: 22px 48px; border-bottom: 1px solid var(--border); display: flex; flex-direction: column; gap: 12px; position: sticky; top: 0; z-index: 100; background: rgba(10,10,10,0.94); backdrop-filter: blur(16px); }
-  .filter-row { display: flex; align-items: center; gap: 12px; min-width: 0; }
-  .filter-label { font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); font-weight: 500; white-space: nowrap; min-width: 56px; flex-shrink: 0; }
-  .filter-pills { display: flex; gap: 6px; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; padding-bottom: 2px; flex: 1; min-width: 0; }
+  .filter-section { padding: 18px 48px; border-bottom: 1px solid var(--border); display: flex; flex-direction: column; gap: 10px; position: sticky; top: 0; z-index: 100; background: rgba(10,10,10,0.95); backdrop-filter: blur(16px); }
+  .filter-row { display: flex; align-items: center; gap: 10px; min-width: 0; }
+  .filter-label { font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); font-weight: 500; white-space: nowrap; min-width: 52px; flex-shrink: 0; }
+  .filter-pills { display: flex; gap: 5px; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; flex: 1; min-width: 0; padding-bottom: 2px; }
   .filter-pills::-webkit-scrollbar { display: none; }
-  .pill { padding: 6px 13px; border-radius: 100px; font-size: 12px; font-weight: 400; cursor: pointer; transition: all 0.18s ease; border: 1px solid var(--border); background: transparent; color: var(--muted); white-space: nowrap; letter-spacing: 0.02em; scroll-snap-align: start; flex-shrink: 0; }
+  .pill { padding: 5px 12px; border-radius: 100px; font-size: 11px; font-weight: 400; cursor: pointer; transition: all 0.15s ease; border: 1px solid var(--border); background: transparent; color: var(--muted); white-space: nowrap; flex-shrink: 0; }
   .pill:hover { border-color: rgba(245,242,238,0.3); color: var(--white); }
-  /* ALL pill resets everything */
-  #typePills .pill[data-type="all"].active,
-  #focusPills .pill[data-focus="all"].active { background: rgba(245,242,238,0.1); border-color: rgba(245,242,238,0.2); color: var(--white); }
-  /* type pills multi-active */
-  #typePills .pill.active { background: var(--accent); border-color: var(--accent); color: #fff; }
-  [data-focus="women"].active      { background: #b84470; border-color: #b84470; color: #fff; }
-  [data-focus="nonbinary"].active  { background: #4a7ec4; border-color: #4a7ec4; color: #fff; }
-  [data-focus="queer"].active      { background: #8c44b8; border-color: #8c44b8; color: #fff; }
-  [data-focus="trans"].active      { background: #2d9abf; border-color: #2d9abf; color: #fff; }
-  [data-focus="lgbtq"].active      { background: #6b3fb4; border-color: #6b3fb4; color: #fff; }
-  [data-focus="bipoc"].active      { background: #9a3d2d; border-color: #9a3d2d; color: #fff; }
-  [data-focus="disability"].active { background: #3d7a5a; border-color: #3d7a5a; color: #fff; }
-  [data-focus="student"].active    { background: #9a6e2d; border-color: #9a6e2d; color: #fff; }
-  [data-focus="parenting"].active  { background: #b48b2d; border-color: #b48b2d; color: #fff; }
-  [data-role="mentor"].active  { background: #c47a1a; border-color: #c47a1a; color: #fff; }
-  [data-role="mentee"].active  { background: #1a8fc4; border-color: #1a8fc4; color: #fff; }
-  [data-role="both"].active    { background: #3a7a3a; border-color: #3a7a3a; color: #fff; }
-  .search-wrap { margin-left: auto; position: relative; flex-shrink: 0; }
-  .search-wrap svg { position: absolute; left: 13px; top: 50%; transform: translateY(-50%); width: 14px; height: 14px; stroke: var(--muted); }
-  #search { background: rgba(255,255,255,0.04); border: 1px solid var(--border); border-radius: 100px; padding: 7px 16px 7px 34px; color: var(--white); font-family: 'DM Sans', sans-serif; font-size: 13px; width: 210px; outline: none; transition: border-color 0.2s; }
+  .pill.active { color: #fff; }
+  /* tag colours */
+  .pill[data-tag="community"].active     { background:#e8471c; border-color:#e8471c; }
+  .pill[data-tag="advocacy"].active      { background:#c47a1a; border-color:#c47a1a; }
+  .pill[data-tag="safety"].active        { background:#2d9a6c; border-color:#2d9a6c; }
+  .pill[data-tag="audio"].active         { background:#7040c0; border-color:#7040c0; }
+  .pill[data-tag="live"].active          { background:#c0407a; border-color:#c0407a; }
+  .pill[data-tag="mentalhealth"].active  { background:#5a3fa0; border-color:#5a3fa0; }
+  .pill[data-tag="education"].active     { background:#6a8a20; border-color:#6a8a20; }
+  .pill[data-tag="mentorship"].active    { background:#c47a1a; border-color:#c47a1a; }
+  .pill[data-tag="profdev"].active       { background:#1a7ac4; border-color:#1a7ac4; }
+  .pill[data-tag="resource"].active      { background:#555; border-color:#555; }
+  .pill[data-tag="women"].active         { background:#b84470; border-color:#b84470; }
+  .pill[data-tag="nonbinary"].active     { background:#4a7ec4; border-color:#4a7ec4; }
+  .pill[data-tag="queer"].active         { background:#8c44b8; border-color:#8c44b8; }
+  .pill[data-tag="trans"].active         { background:#2d9abf; border-color:#2d9abf; }
+  .pill[data-tag="lgbtq"].active         { background:#6b3fb4; border-color:#6b3fb4; }
+  .pill[data-tag="bipoc"].active         { background:#9a3d2d; border-color:#9a3d2d; }
+  .pill[data-tag="disability"].active    { background:#3d7a5a; border-color:#3d7a5a; }
+  .pill[data-tag="student"].active       { background:#9a6e2d; border-color:#9a6e2d; }
+  .pill[data-tag="parenting"].active     { background:#b48b2d; border-color:#b48b2d; }
+  .pill[data-tag="all"].active           { background:rgba(245,242,238,0.12); border-color:rgba(245,242,238,0.25); color:var(--white); }
+
+  /* SEARCH */
+  .search-wrap { position: relative; flex-shrink: 0; margin-left: auto; }
+  .search-wrap svg { position: absolute; left: 11px; top: 50%; transform: translateY(-50%); width: 13px; height: 13px; stroke: var(--muted); }
+  #search { background: rgba(255,255,255,0.04); border: 1px solid var(--border); border-radius: 100px; padding: 6px 14px 6px 30px; color: var(--white); font-family: 'DM Sans', sans-serif; font-size: 12px; width: 190px; outline: none; transition: border-color 0.2s; }
   #search::placeholder { color: var(--muted); }
   #search:focus { border-color: rgba(245,242,238,0.3); }
 
   /* RESULTS */
-  .results-bar { padding: 16px 48px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+  .results-bar { padding: 14px 48px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
   .results-count { font-size: 12px; color: var(--muted); }
   .results-count strong { color: var(--white); font-weight: 500; }
-  .clear-btn { font-size: 11px; color: var(--accent); background: transparent; border: 1px solid rgba(232,71,28,0.3); border-radius: 100px; padding: 4px 12px; cursor: pointer; letter-spacing: 0.05em; transition: all 0.18s; display: none; }
+  .clear-btn { font-size: 11px; color: var(--accent); background: transparent; border: 1px solid rgba(232,71,28,0.3); border-radius: 100px; padding: 4px 12px; cursor: pointer; letter-spacing: 0.05em; transition: all 0.15s; display: none; }
   .clear-btn:hover { background: rgba(232,71,28,0.1); }
   .clear-btn.visible { display: inline-block; }
 
@@ -80,54 +74,47 @@
   .grid { padding: 8px 48px 80px; display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1px; background: var(--border); }
 
   /* CARD */
-  .card { background: var(--black); padding: 28px; display: flex; flex-direction: column; gap: 10px; transition: background 0.2s; position: relative; overflow: hidden; animation: fadeUp 0.4s ease both; }
-  .card::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 80% 60% at 0% 100%, rgba(232,71,28,0.06) 0%, transparent 60%); opacity: 0; transition: opacity 0.3s; pointer-events: none; }
+  .card { background: var(--black); padding: 26px; display: flex; flex-direction: column; gap: 9px; transition: background 0.2s; position: relative; overflow: hidden; animation: fadeUp 0.35s ease both; }
+  .card::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 80% 60% at 0% 100%, rgba(232,71,28,0.05) 0%, transparent 60%); opacity: 0; transition: opacity 0.3s; pointer-events: none; }
   .card:hover { background: #111; }
   .card:hover::before { opacity: 1; }
-  .card-type { display: inline-flex; align-items: center; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 500; padding: 3px 9px; border-radius: 4px; width: fit-content; }
-  .type-community   { background: rgba(232,71,28,0.12);   color: #e8471c; }
-  .type-advocacy    { background: rgba(247,183,49,0.12);   color: #f7b731; }
-  .type-safety      { background: rgba(100,220,180,0.12);  color: #64dcb4; }
-  .type-audio       { background: rgba(160,120,255,0.12);  color: #a078ff; }
-  .type-live        { background: rgba(255,120,160,0.12);  color: #ff78a0; }
-  .type-wellness    { background: rgba(80,200,240,0.12);   color: #50c8f0; }
-  .type-education   { background: rgba(200,240,80,0.12);   color: #b8d440; }
-  .type-resource    { background: rgba(200,200,200,0.1);   color: #aaa; }
-  .type-mentorship  { background: rgba(255,165,50,0.12);   color: #ffa530; }
-  .type-profdev     { background: rgba(100,180,255,0.12);  color: #64b4ff; }
-  .type-mentalhealth { background: rgba(180,120,220,0.12); color: #c080e8; }
-  .card-name { font-family: 'Bebas Neue', sans-serif; font-size: 24px; letter-spacing: 0.04em; color: var(--white); line-height: 1; }
-  .card-desc { font-size: 13px; font-weight: 300; color: var(--muted); line-height: 1.65; flex: 1; }
-  .card-tags { display: flex; flex-wrap: wrap; gap: 5px; }
-  .ftag { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; padding: 2px 7px; border-radius: 3px; }
-  .ftag-women      { background: rgba(184,68,112,0.12);  color: #e080a8; border: 1px solid rgba(184,68,112,0.22); }
-  .ftag-nonbinary  { background: rgba(74,126,196,0.12);  color: #80a8e0; border: 1px solid rgba(74,126,196,0.22); }
-  .ftag-queer      { background: rgba(140,68,184,0.12);  color: #c080e0; border: 1px solid rgba(140,68,184,0.22); }
-  .ftag-trans      { background: rgba(45,154,191,0.12);  color: #70cce8; border: 1px solid rgba(45,154,191,0.22); }
-  .ftag-lgbtq      { background: rgba(107,63,180,0.12);  color: #aa80e0; border: 1px solid rgba(107,63,180,0.22); }
-  .ftag-bipoc      { background: rgba(154,61,45,0.12);   color: #d88070; border: 1px solid rgba(154,61,45,0.22); }
-  .ftag-disability { background: rgba(61,122,90,0.12);   color: #70c4a0; border: 1px solid rgba(61,122,90,0.22); }
-  .ftag-student    { background: rgba(154,110,45,0.12);  color: #d8a870; border: 1px solid rgba(154,110,45,0.22); }
-  .ftag-parenting  { background: rgba(180,139,45,0.12);  color: #e0c070; border: 1px solid rgba(180,139,45,0.22); }
-  .rtag { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; padding: 2px 7px; border-radius: 3px; display: inline-flex; align-items: center; gap: 4px; }
-  .rtag::before { content: ''; width: 5px; height: 5px; border-radius: 50%; display: inline-block; flex-shrink: 0; }
-  .rtag-mentor { background: rgba(196,122,26,0.12); color: #e09040; border: 1px solid rgba(196,122,26,0.22); }
-  .rtag-mentor::before { background: #e09040; }
-  .rtag-mentee { background: rgba(26,143,196,0.12); color: #50b8e8; border: 1px solid rgba(26,143,196,0.22); }
-  .rtag-mentee::before { background: #50b8e8; }
-  .rtag-both   { background: rgba(58,122,58,0.12);  color: #70c870; border: 1px solid rgba(58,122,58,0.22); }
-  .rtag-both::before { background: #70c870; }
-  .card-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 14px; border-top: 1px solid var(--border); margin-top: 4px; }
-  .card-note { font-size: 11px; color: var(--accent2); font-style: italic; font-weight: 300; }
-  .card-link { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; color: var(--white); text-decoration: none; opacity: 0.45; transition: opacity 0.2s; }
+  .card-tags-row { display: flex; gap: 5px; flex-wrap: wrap; }
+  .ctag { font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 500; padding: 2px 7px; border-radius: 3px; }
+  /* card tag colours match pill colours */
+  .ctag-community    { background: rgba(232,71,28,0.12);  color: #e8471c; }
+  .ctag-advocacy     { background: rgba(196,122,26,0.12); color: #e09040; }
+  .ctag-safety       { background: rgba(45,154,108,0.12); color: #50c890; }
+  .ctag-audio        { background: rgba(112,64,192,0.12); color: #9868e0; }
+  .ctag-live         { background: rgba(192,64,122,0.12); color: #e07090; }
+  .ctag-mentalhealth { background: rgba(90,63,160,0.12);  color: #a080d8; }
+  .ctag-education    { background: rgba(106,138,32,0.12); color: #a0c040; }
+  .ctag-mentorship   { background: rgba(196,122,26,0.12); color: #e09040; }
+  .ctag-profdev      { background: rgba(26,122,196,0.12); color: #50a0e0; }
+  .ctag-resource     { background: rgba(120,120,120,0.1); color: #aaa; }
+  .ctag-women        { background: rgba(184,68,112,0.1);  color: #e080a8; }
+  .ctag-nonbinary    { background: rgba(74,126,196,0.1);  color: #80a8e0; }
+  .ctag-queer        { background: rgba(140,68,184,0.1);  color: #c080e0; }
+  .ctag-trans        { background: rgba(45,154,191,0.1);  color: #70cce8; }
+  .ctag-lgbtq        { background: rgba(107,63,180,0.1);  color: #aa80e0; }
+  .ctag-bipoc        { background: rgba(154,61,45,0.1);   color: #d88070; }
+  .ctag-disability   { background: rgba(61,122,90,0.1);   color: #70c4a0; }
+  .ctag-student      { background: rgba(154,110,45,0.1);  color: #d8a870; }
+  .ctag-parenting    { background: rgba(180,139,45,0.1);  color: #e0c070; }
+
+  .card-name { font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 0.04em; color: var(--white); line-height: 1; }
+  .card-desc { font-size: 13px; font-weight: 300; color: var(--muted); line-height: 1.6; flex: 1; }
+  .card-meta { font-size: 11px; color: var(--accent2); font-style: italic; font-weight: 300; }
+  .card-footer { display: flex; align-items: center; justify-content: flex-end; padding-top: 12px; border-top: 1px solid var(--border); margin-top: 2px; }
+  .card-link { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; color: var(--white); text-decoration: none; opacity: 0.4; transition: opacity 0.2s; }
   .card-link:hover { opacity: 1; }
-  .card-link svg { width: 11px; height: 11px; stroke: currentColor; }
+  .card-link svg { width: 10px; height: 10px; stroke: currentColor; }
+
   .empty { grid-column: 1/-1; padding: 80px; text-align: center; color: var(--muted); }
   .empty p { font-size: 15px; font-weight: 300; }
 
-  @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
 
-  footer { border-top: 1px solid var(--border); padding: 28px 48px; display: flex; align-items: center; justify-content: space-between; color: var(--muted); font-size: 12px; letter-spacing: 0.05em; flex-wrap: wrap; gap: 8px; }
+  footer { border-top: 1px solid var(--border); padding: 24px 48px; display: flex; align-items: center; justify-content: space-between; color: var(--muted); font-size: 12px; flex-wrap: wrap; gap: 8px; }
   footer a { color: var(--accent); text-decoration: none; }
 
   @media (max-width: 640px) {
@@ -141,19 +128,6 @@
 </head>
 <body>
 
-<!-- Loading screen -->
-<div class="loading-screen" id="loadingScreen">
-  <div class="loading-spinner"></div>
-  <div class="loading-text">Loading resources…</div>
-</div>
-
-<!-- Error banner (shown if sheet isn't published) -->
-<div class="error-banner" id="errorBanner">
-  ⚠️ Couldn't load data from Google Sheets. Make sure the sheet is published:
-  <strong>File → Share → Publish to web → Publish</strong>.
-  Then reload this page. <a href="#" onclick="loadData()">Try again</a>
-</div>
-
 <header>
   <div class="header-eyebrow">There's no such thing as an Industry Plant 🌱</div>
   <h1>MUSIC<br><span>INDUSTRY</span><br>RESOURCES</h1>
@@ -163,50 +137,34 @@
 
 <div class="filter-section">
   <div class="filter-row">
-    <span class="filter-label">Category</span>
-    <div class="filter-pills" id="typePills">
-      <button class="pill active" data-type="all">All</button>
-      <button class="pill" data-type="community">Community</button>
-      <button class="pill" data-type="advocacy">Advocacy</button>
-      <button class="pill" data-type="safety">Safety</button>
-      <button class="pill" data-type="audio">Audio & Production</button>
-      <button class="pill" data-type="live">Live & Events</button>
-      <button class="pill" data-type="wellness">Wellness</button>
-      <button class="pill" data-type="education">Education</button>
-      <button class="pill" data-type="resource">Tools & Resources</button>
-      <button class="pill" data-type="mentorship">Mentorship</button>
-      <button class="pill" data-type="profdev">Professional Dev</button>
-      <button class="pill" data-type="mentalhealth">Mental Health</button>
-    </div>
-  </div>
-  <div class="filter-row">
-    <span class="filter-label">Focus</span>
-    <div class="filter-pills" id="focusPills">
-      <button class="pill active" data-focus="all">All</button>
-      <button class="pill" data-focus="women">Women</button>
-      <button class="pill" data-focus="nonbinary">Non-Binary</button>
-      <button class="pill" data-focus="queer">Queer</button>
-      <button class="pill" data-focus="trans">Trans</button>
-      <button class="pill" data-focus="lgbtq">LGBTQ+</button>
-      <button class="pill" data-focus="bipoc">BIPOC</button>
-      <button class="pill" data-focus="disability">Disability</button>
-      <button class="pill" data-focus="student">Student</button>
-      <button class="pill" data-focus="parenting">Parenting</button>
-    </div>
-  </div>
-  <div class="filter-row">
-    <span class="filter-label">Role</span>
-    <div class="filter-pills" id="rolePills">
-      <button class="pill active" data-role="all">All</button>
-      <button class="pill" data-role="mentor">Open to Mentors</button>
-      <button class="pill" data-role="mentee">Open to Mentees</button>
-      <button class="pill" data-role="both">Both</button>
+    <span class="filter-label">Filter</span>
+    <div class="filter-pills" id="tagPills">
+      <button class="pill active" data-tag="all">All</button>
+      <button class="pill" data-tag="community">Community</button>
+      <button class="pill" data-tag="advocacy">Advocacy</button>
+      <button class="pill" data-tag="safety">Safety</button>
+      <button class="pill" data-tag="audio">Audio & Production</button>
+      <button class="pill" data-tag="live">Live & Events</button>
+      <button class="pill" data-tag="mentalhealth">Mental Health</button>
+      <button class="pill" data-tag="education">Education</button>
+      <button class="pill" data-tag="mentorship">Mentorship</button>
+      <button class="pill" data-tag="profdev">Professional Dev</button>
+      <button class="pill" data-tag="resource">Tools & Resources</button>
+      <button class="pill" data-tag="women">Women</button>
+      <button class="pill" data-tag="nonbinary">Non-Binary</button>
+      <button class="pill" data-tag="queer">Queer</button>
+      <button class="pill" data-tag="trans">Trans</button>
+      <button class="pill" data-tag="lgbtq">LGBTQ+</button>
+      <button class="pill" data-tag="bipoc">BIPOC</button>
+      <button class="pill" data-tag="disability">Disability</button>
+      <button class="pill" data-tag="student">Student</button>
+      <button class="pill" data-tag="parenting">Parenting</button>
     </div>
     <div class="search-wrap">
       <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
       </svg>
-      <input type="text" id="search" placeholder="Search organizations…">
+      <input type="text" id="search" placeholder="Search…">
     </div>
   </div>
 </div>
@@ -220,205 +178,185 @@
 
 <footer>
   <span>There's no such thing as an Industry Plant 🌱</span>
-  <span>See a mistake? Something to add? Want to tell us something? <a href="mailto:md@marissadevito.com">Drop us a note</a></span>
+  <span>See a mistake? Something to add? <a href="mailto:md@marissadevito.com">Drop us a note</a></span>
 </footer>
 
 <script>
-// ─── CONFIG ──────────────────────────────────────────────────────────────────
-// Replace SHEET_ID with your Google Sheet ID (the long string in the URL)
-// The sheet must be published: File → Share → Publish to web → Publish
-const SHEET_ID = '1j1VLbVeX6-ezFFY486U8aQ_QZ38KMzI6FcLfhIjd81c';
-const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv`;
-
-// ─── LABELS ──────────────────────────────────────────────────────────────────
-const typeLabels = {
-  community:"Community", advocacy:"Advocacy", safety:"Safety",
-  audio:"Audio & Production", live:"Live & Events", wellness:"Wellness",
-  education:"Education", resource:"Tools & Resources", mentorship:"Mentorship",
-  profdev:"Professional Dev", mentalhealth:"Mental Health"
-};
-const focusLabels = {
-  women:"Women", nonbinary:"Non-Binary", queer:"Queer", trans:"Trans",
-  lgbtq:"LGBTQ+", bipoc:"BIPOC", disability:"Disability", student:"Student",
-  parenting:"Parenting"
-};
-const roleLabels = { mentor:"Open to Mentors", mentee:"Open to Mentees", both:"Open to Both" };
+// tags: any combination of the filter slugs above — orgs can have as many as needed
+const resources = [
+  { name:"A2IM (American Association of Independent Music)", url:"https://a2im.org/", desc:"A 501(c)(6) trade organization representing 700+ independent US music labels advocating for independent artists and labels in the marketplace, media, and on Capitol Hill.", tags:["advocacy","community"], note:"" },
+  { name:"Alliance for Women Film Composers", url:"https://theawfc.com/", desc:"A community of composers and colleagues supporting and celebrating women composers through advocacy and education across film, TV, video games, and multimedia.", tags:["audio","advocacy","community","women"], note:"" },
+  { name:"Amplify Her Voice", url:"https://www.amplifyhervoice.org/", desc:"Championing gender equality in the music industry and advancing women's careers through events, programs, and community.", tags:["advocacy","community","women"], note:"" },
+  { name:"Association of Music Producers (AMP)", url:"https://www.ampnow.com/", desc:"Founded in 1998 to educate members and the wider advertising, production, and media communities on all facets of music production through events, resources, and advocacy.", tags:["community","advocacy","profdev"], note:"" },
+  { name:"Audio Engineering Society (AES)", url:"https://www.aes.org/", desc:"The only professional society devoted exclusively to audio technology, uniting audio engineers, creative artists, scientists, and students worldwide since 1948.", tags:["audio","community","profdev"], note:"" },
+  { name:"B.A.K. Play.Ground", url:"https://www.bigasskids.com/playground", desc:"A membership platform connecting artists, creatives, and music professionals through vetted hiring opportunities, music business education, and community.", tags:["resource","community","profdev"], note:"" },
+  { name:"BAK Pitch Perfect", url:"https://bakpitchperfect.org/", desc:"A business community for women entrepreneurs in the music industry — part of the B.A.K. Play.Ground ecosystem — connecting members through shared work opportunities, music business education, and industry dialogue.", tags:["community","profdev","women"], note:"" },
+  { name:"BAPAM (British Association for Performing Arts Medicine)", url:"https://www.bapam.org.uk/", desc:"Provides free or low-cost clinical health services for performing artists across the UK, including medical assessments for physical issues like injuries, vocal problems, mental health, hearing, and other work-related health conditions.", tags:["mentalhealth"], note:"UK-based" },
+  { name:"Backline", url:"https://backline.care/", desc:"Mental health and wellness resources for music industry professionals and their families.", tags:["mentalhealth","community"], note:"" },
+  { name:"Book More Women", url:"https://www.bookmorewomen.com/", desc:"Visualizing and addressing the pervasive gender imbalance at music festivals, tracking progress towards better representation on future lineups.", tags:["advocacy","women"], note:"" },
+  { name:"Calling All Crows", url:"https://www.callingallcrows.org/", desc:"Connecting music fans to feminist movements for justice and equality.", tags:["advocacy","community","women","queer","lgbtq"], note:"" },
+  { name:"Color of Music Collective", url:"https://www.colorofmusiccollective.com/mission", desc:"Amplifying the voices of people of color and LGBTQ+ individuals working in the music industry.", tags:["community","advocacy","lgbtq","queer","trans","bipoc"], note:"" },
+  { name:"Diversify the Stage", url:"https://www.diversifythestage.org/", desc:"A 501(c)3 providing greater access to careers in live music, events, and touring for historically marginalized and underrepresented communities.", tags:["live","advocacy","community","women","nonbinary","lgbtq","bipoc"], note:"" },
+  { name:"ECCHO Live", url:"https://eccholive.com/", desc:"Human resources for live event professionals. Their All Access program pays for 4 therapy or coaching sessions per year for people who work in live entertainment. All Access Onsite provides free counseling at major festivals and events across the US.", tags:["mentalhealth","live"], note:"" },
+  { name:"Entertainment Community Fund", url:"https://entertainmentcommunity.org/", desc:"Provides performing-arts and entertainment professionals with health and wellness support, career and life services, affordable housing, emergency financial assistance, and other social services. Formerly The Actors Fund.", tags:["mentalhealth","resource"], note:"" },
+  { name:"EqualizeHer", url:"https://www.equalizeher.org/", desc:"An initiative to achieve equal representation of women across all aspects of the music industry — from recording studios to stages to board rooms.", tags:["advocacy","women"], note:"" },
+  { name:"Family Alliance in Music (FAM)", url:"https://www.familyallianceinmusic.org/", desc:"An organization dedicated to supporting music industry professionals who are also parents and caregivers, providing resources, community, and advocacy for family-friendly workplaces in music.", tags:["advocacy","community","parenting"], note:"" },
+  { name:"Female Composer Safety League", url:"https://www.femalecomposersafetyleague.org/", desc:"Providing visibility, safety, advancement, and empowerment of women with a trauma-informed space for victims of sexual abuse in the music composing industry.", tags:["safety","advocacy","women"], note:"" },
+  { name:"Femme House", url:"https://www.thisisfemmehouse.com/", desc:"Creating a more equitable industry for femme and gender expansive music producers and DJs.", tags:["community","advocacy","audio","women","nonbinary","queer","lgbtq"], note:"" },
+  { name:"Femme It Forward", url:"https://www.femmeitforward.com/", desc:"A female-led music and entertainment company celebrating, educating, and empowering women through concerts, tours, festivals, comedy shows, and more.", tags:["live","community","women"], note:"" },
+  { name:"Future of Music Coalition", url:"https://www.futureofmusic.org/about", desc:"A D.C.-based nonprofit supporting a musical ecosystem where artists flourish and are compensated fairly and transparently for their work.", tags:["advocacy","resource"], note:"" },
+  { name:"Gender Amplified", url:"https://www.genderamplified.org/", desc:"A 501c3 non-profit empowering women and gender-expansive music producers by inspiring the next generation of audio professionals.", tags:["audio","community","advocacy","women","nonbinary"], note:"" },
+  { name:"Gender Amplified Mentorship", url:"https://www.genderamplified.org/", desc:"Mentorship and professional development for women and gender-expansive music producers, connecting emerging audio professionals with established mentors in the production and engineering space.", tags:["mentorship","audio","women","nonbinary"], note:"" },
+  { name:"Girl Be Heard", url:"https://girlbeheard.org/", desc:"Building leaders, change-makers, and activists through amplifying the voices of girls and young women via socially conscious theater-making and performance.", tags:["advocacy","community","education","women"], note:"" },
+  { name:"Girls Against", url:"https://www.girlsagainst.co.uk/", desc:"Fighting against sexual assault at live music events.", tags:["safety","advocacy","women"], note:"" },
+  { name:"Girls Behind the Rock Show", url:"https://www.instagram.com/girlsbtrs/", desc:"501(c)(3) Non-Profit helping advance women and marginalized genders in the music industry through education and hands-on opportunities.", tags:["education","community","women","nonbinary"], note:"" },
+  { name:"Girls Who Listen", url:"https://www.girlswholisten.org/", desc:"Supporting future female creatives and executives within the music industry.", tags:["community","advocacy","women"], note:"" },
+  { name:"Grammy U", url:"https://www.recordingacademy.com/membership/grammy-u", desc:"Recording Academy program for college students pursuing careers in the music industry.", tags:["education","profdev","student"], note:"" },
+  { name:"Grammy U Mentorship Program", url:"https://www.recordingacademy.com/membership/grammy-u", desc:"Annual 6-month one-on-one program pairing college students with Recording Academy voting members across tracks including Producing & Engineering, Performance, Songwriting, Music Business, and Entertainment Law.", tags:["mentorship","education","student"], note:"Presented by Amazon Music" },
+  { name:"Gritty in Pink", url:"https://www.grittyinpink.co/", desc:"A community of diverse female creators working in the music industry, providing connection, access, and opportunities through an inclusive network.", tags:["community","women","queer","lgbtq"], note:"" },
+  { name:"HAAM (Health Alliance for Austin Musicians)", url:"https://www.myhaam.org/", desc:"Provides Austin-area musicians access to affordable health, wellness, and prevention services including insurance assistance, medical, dental, vision, and mental health care.", tags:["mentalhealth"], note:"Austin-based" },
+  { name:"Help Musicians / Music Minds Matter", url:"https://www.helpmusicians.org.uk/", desc:"Help Musicians provides financial, health, and career support to professional musicians. Its service Music Minds Matter offers confidential mental health support and a 24/7 helpline for people working in music.", tags:["mentalhealth","resource"], note:"UK-based" },
+  { name:"Hire Survivors Hollywood", url:"https://hiresurvivorshollywood.org/", desc:"Working to end career retaliation against survivors of sexual violence in the entertainment industry.", tags:["safety","advocacy","women","lgbtq"], note:"" },
+  { name:"Key Change Mentorship", url:"https://www.keychange.eu/", desc:"Keychange connects underrepresented genders in music with mentors to support career development, festival bookings, and visibility.", tags:["mentorship","women","nonbinary","trans"], note:"" },
+  { name:"Keychange U.S.", url:"https://www.keychangeus.com/", desc:"Keychange U.S. is a charitable non-profit organization championing gender equity and inclusion within the music industry.", tags:["advocacy","community","women","nonbinary","trans"], note:"" },
+  { name:"Latin Grammy Cultural Foundation Mentorship", url:"https://www.latingrammyculturalfoundation.org/en/what-we-do/mentorship", desc:"Pairs young women seeking careers in music and entertainment with senior Latin music industry executives for one-on-one virtual mentoring. In partnership with She Is The Music.", tags:["mentorship","women"], note:"In partnership with SITM" },
+  { name:"Live Nation Women", url:"https://livenationwomenfund.livenation.com/", desc:"A global, early-stage fund improving gender equality by investing in female-founded live music businesses and female entrepreneurs across the live music space.", tags:["live","advocacy","women"], note:"" },
+  { name:"Live Out L!ve Foundation", url:"https://www.liveoutlive.com/lol-foundation", desc:"A 501C3 organization amplifying commitment to open doors and set the stage for the next generation of diverse talent.", tags:["live","community","advocacy","women","lgbtq"], note:"" },
+  { name:"Lone Wolves Club", url:"https://lonewolvesclub.co/", desc:"A 501(c)(3) nonprofit community for music, tech, and entertainment professionals — born from disruption, built on connection. Turns isolation into collaboration by fostering skill-building and opportunity.", tags:["community","profdev"], note:"" },
+  { name:"Maestra Music Mentorship", url:"https://maestramusic.org/mentorship/", desc:"A 6-month program connecting early-career mentees (21+) interested in making music for theatre with professional women and nonbinary people currently working in the field.", tags:["mentorship","women","nonbinary"], note:"Applications open annually" },
+  { name:"Mamas in Music", url:"https://mamasinmusic.org/", desc:"A non-profit supporting mothers working in the music industry, building community, hosting song camps and events, and creating a village for mamas navigating a career in music.", tags:["community","advocacy","women","parenting"], note:"" },
+  { name:"MINT Talent Group Women's Mentorship", url:"https://www.minttalentgroup.com/mentorship", desc:"Virtual mentorship program creating a safe space for women and nonbinary leaders in live music, designed to empower future leaders through open dialogue and education around live touring topics.", tags:["mentorship","live","women","nonbinary","lgbtq"], note:"Ages 18+" },
+  { name:"Minding Creative Minds", url:"https://mindingcreativeminds.ie/", desc:"Irish organization offering free, confidential 24/7 mental health, wellbeing, legal, financial, career, and counselling support services to people working in the creative industries.", tags:["mentalhealth","resource"], note:"Ireland-based" },
+  { name:"Moms in Music", url:"https://www.momsinmusic.org/", desc:"A community and membership organization for moms working in the music industry, offering events, programs, and peer support for navigating parenthood and a music career simultaneously.", tags:["community","women","parenting"], note:"" },
+  { name:"Music Business Association", url:"https://musicbiz.org/", desc:"Representing the full music business ecosystem through the annual Music Biz conference, educational resources, webinars, and the #NEXTGEN_NOW program for emerging professionals.", tags:["advocacy","profdev","community"], note:"" },
+  { name:"Music Health Alliance", url:"https://musichealthalliance.com/", desc:"Helps music industry professionals access and navigate affordable healthcare, health insurance, and mental health resources by providing free advocacy, guidance, and connections to medical services.", tags:["mentalhealth","resource"], note:"" },
+  { name:"Music Industry Therapist Collective", url:"https://www.musicindustrytherapists.com/", desc:"Global network of therapists with music industry experience providing mental health services tailored to the unique challenges of touring and working in the music business.", tags:["mentalhealth","community"], note:"" },
+  { name:"Music Production for Women", url:"https://musicproductionforwomen.com/front-page", desc:"Encouraging and empowering more women in music production and technology through education, community support, and visible role models.", tags:["audio","education","community","women"], note:"" },
+  { name:"Music Support", url:"https://www.musicsupport.org/", desc:"Provides support for UK musicians with mental health, addiction, and wellbeing challenges through a confidential helpline, counseling, training, safe spaces at events, and support services.", tags:["mentalhealth","community"], note:"UK-based" },
+  { name:"MusiCares", url:"https://www.musicares.org/", desc:"Provides a nationwide safety net of critical health, mental health, addiction recovery, financial aid, and emergency support services to music industry professionals in need.", tags:["mentalhealth","resource"], note:"" },
+  { name:"Musicians Foundation", url:"https://www.musiciansfoundation.org/", desc:"Provides direct financial grants to professional musicians and their families to help cover essential bills and expenses during times of need, crisis, or transition.", tags:["mentalhealth","resource"], note:"Since 1914" },
+  { name:"Musicians Treatment Fund", url:"https://mtfusa.org/", desc:"Provides professional musicians who can't afford care with free or low-cost specialized orthopedic treatment for shoulder, elbow, and hand injuries.", tags:["mentalhealth","disability"], note:"" },
+  { name:"Nashville Songwriters Association International (NSAI)", url:"https://nashvillesongwriters.com/", desc:"The world's largest not-for-profit songwriters trade association with 5,000+ members across the US and beyond, dedicated to protecting the rights of aspiring and professional songwriters in all genres.", tags:["advocacy","community","profdev"], note:"" },
+  { name:"New Music USA", url:"https://newmusicusa.org/", desc:"Committed to the vitality of the new music community, supporting composers, performers, presenters, producers, and fans through grants, resources, and a platform for discovery and connection.", tags:["community","resource","advocacy"], note:"" },
+  { name:"New Orleans Musicians' Clinic & Assistance Foundation", url:"https://neworleansmusiciansclinic.org/", desc:"Provides low-cost comprehensive healthcare, social services, and wellness support tailored to the needs of Louisiana-based musicians.", tags:["mentalhealth"], note:"New Orleans-based" },
+  { name:"No Creeps!", url:"https://www.sharpedgesrecords.com/nocreeps", desc:"A growing movement and coalition of music professionals dedicated to industry-wide safety, mental health, and inclusivity, hosting events, providing resources, and showcasing artists passionate about making the music industry safer.", tags:["safety","advocacy","community","women","lgbtq"], note:"" },
+  { name:"Noise For Now", url:"https://noisefornow.org/", desc:"Enabling artists and entertainers to connect with and support grassroots organizations working in Reproductive Justice, including abortion access.", tags:["advocacy","women","queer","lgbtq"], note:"" },
+  { name:"O+ Festival", url:"https://opositivefestival.org/", desc:"Annual art, music, and wellness festival and year-round exchange clinic in Kingston, NY where underinsured artists and musicians can trade their creative work for healthcare and wellness services.", tags:["mentalhealth","community","live"], note:"Kingston, NY" },
+  { name:"Porter's Call", url:"https://www.porterscall.org/", desc:"Provides free, confidential support, guidance, and counseling to touring and recording artists and their partners.", tags:["mentalhealth"], note:"" },
+  { name:"Production Music Association (PMA)", url:"https://pmamusic.com/", desc:"Representing production music publishers and composers, providing education on industry trends, professional development, and advocacy for performance royalty collection.", tags:["community","advocacy","profdev","audio"], note:"" },
+  { name:"Queer|Art|Mentorship", url:"https://www.queer-art.org/mentorship", desc:"Year-long creative and professional development program pairing early-career LGBTQ+ artists with established mentors across Film, Literature, Performance, and Visual Art.", tags:["mentorship","community","lgbtq","queer","trans","nonbinary"], note:"15th year running" },
+  { name:"RAMPD", url:"https://rampd.org/", desc:"Recording Artists and Music Professionals with Disabilities — a UN-recognized platform equipping the music and live entertainment industries with disability-inclusive tools, trainings, and a global directory of peer-vetted creators.", tags:["community","advocacy","disability","lgbtq"], note:"" },
+  { name:"Safe Gigs for Women", url:"https://www.instagram.com/safegigs4women/", desc:"Working with venues, promoters, artists, and gig-goers to fight sexual assault and harassment at live music events.", tags:["safety","advocacy","women","lgbtq"], note:"" },
+  { name:"Safetour", url:"https://www.safetour.org/", desc:"Making the music tour community safe, equitable, and inclusive.", tags:["safety","advocacy","community","women","nonbinary","lgbtq"], note:"" },
+  { name:"Salary Transparency Sheet", url:"https://docs.google.com/spreadsheets/d/1D9i2TA1Zs9AW1HNdcr_O53XPhuza2gqj7B0xtaoccqg/", desc:"A community salary survey advancing pay transparency in the music industry.", tags:["resource"], note:"" },
+  { name:"She Is The Music", url:"https://sheisthemusic.org/", desc:"Advancing equality, inclusivity, and opportunity for women in music.", tags:["advocacy","community","women"], note:"" },
+  { name:"She Is The Music Mentorship Program", url:"https://sheisthemusic.org/", desc:"Connects young women with industry professionals actively working in touring, producing, songwriting, and more.", tags:["mentorship","women"], note:"" },
+  { name:"She Said So", url:"https://www.shesaid.so", desc:"A global community of women, gender nonconforming people, and allies in the music industry.", tags:["community","advocacy","women","nonbinary","queer","lgbtq"], note:"" },
+  { name:"Sight and Sound", url:"https://www.sightsoundcare.com/", desc:"Free vision care for musicians.", tags:["mentalhealth"], note:"" },
+  { name:"SIMS Foundation", url:"https://simsfoundation.org/", desc:"Provides affordable mental health care, substance-use recovery services, and counseling and treatment access for musicians, music industry professionals, and their families.", tags:["mentalhealth"], note:"Austin-based" },
+  { name:"SMASH (Seattle Musicians Access to Sustainable Healthcare)", url:"https://www.smashseattle.org/", desc:"Helps working Seattle-area musicians access free or low-cost healthcare including mental health treatment, dental, vision, hearing, and primary care.", tags:["mentalhealth"], note:"Seattle-based" },
+  { name:"Society of Professional Audio Recording Services (SPARS)", url:"https://www.spars.com/", desc:"A nonprofit association representing professionals in the US recording industry, offering networking, education, and industry advocacy.", tags:["audio","community","advocacy","profdev"], note:"" },
+  { name:"SOLID (Supporters of Live Independent Diversity)", url:"https://www.solidmusic.org/", desc:"Improving the future of the music industry by strengthening professional relationships and educating a diverse group of future executives while serving the community.", tags:["profdev","advocacy","community","live"], note:"" },
+  { name:"SONA (Songwriters of North America)", url:"https://www.wearesona.com/", desc:"Fights for fair pay, rights, education, and equity for songwriters in the music industry. Offers free Amazon One Medical memberships to members and their families.", tags:["advocacy","community","mentalhealth","women"], note:"" },
+  { name:"SONA Foundation", url:"https://www.sonafoundation.com/", desc:"Provides songwriters with resources, programs, and funding in mental health, career development, and financial wellness.", tags:["mentalhealth","profdev","resource","women"], note:"" },
+  { name:"Sound Healthcare", url:"https://soundhealthcare.org/", desc:"Provides insurance solutions and advocacy for entertainment professionals — helping musicians and industry workers find and navigate coverage options.", tags:["mentalhealth","resource"], note:"" },
+  { name:"Soundcheck Collective", url:"https://www.soundcheckcollective.org/", desc:"A Canadian non-profit providing free mental health education and community-based programs for people working in music and live events.", tags:["mentalhealth","community","education"], note:"Canada-based" },
+  { name:"SoundCheck Wellness", url:"https://soundcheckwellness.com/", desc:"A nonprofit providing financial assistance to musicians and tour support crew for health insurance premiums, mental health counseling, dental and vision care, and substance abuse treatment.", tags:["mentalhealth"], note:"" },
+  { name:"SoundGirls", url:"https://soundgirls.org/", desc:"Empowering the next generation of women in audio.", tags:["audio","community","education","women"], note:"" },
+  { name:"SoundGirls Online Mentoring", url:"https://soundgirls.org/soundgirls-online-mentoring/", desc:"Ongoing group mentoring program pairing SoundGirls members with professional audio engineers across recording, live sound, post-production, and audio manufacturing.", tags:["mentorship","audio","women"], note:"SoundGirls membership required" },
+  { name:"Stagecare", url:"https://www.stagecare.com/", desc:"Healthcare made for music and entertainment professionals, offering tailored plans and coverage designed around the realities of touring and industry work.", tags:["mentalhealth","resource"], note:"" },
+  { name:"Sweet Relief Musicians Fund", url:"https://www.sweetrelief.org/", desc:"Provides emergency financial grants to professional musicians and music industry workers to help cover medical expenses and other needs during times of illness, disability, or hardship.", tags:["mentalhealth","resource","disability"], note:"" },
+  { name:"Symphonic Women Empowered", url:"https://symphonic.com/women-empowered/", desc:"A mentorship program empowering women in the music industry through guidance and professional development.", tags:["mentorship","profdev","women"], note:"" },
+  { name:"The Digilogue", url:"https://www.thedigilogue.com/about", desc:"A diverse music and tech community of creators and industry professionals curating conversations around industry education, career resources, and artist discovery.", tags:["education","community","profdev"], note:"" },
+  { name:"The Jazz Foundation", url:"https://jazzfoundation.org/pro-bono-medical/", desc:"Provides a pro bono network for uninsured musicians in health crisis.", tags:["mentalhealth","resource"], note:"" },
+  { name:"The Photo Ladies", url:"https://www.thephotoladies.com/local-music-project", desc:"A collective of women and non-binary photographers bound by their love of music, supporting and representing one another in the world.", tags:["community","women","nonbinary"], note:"" },
+  { name:"The Roadie Clinic", url:"https://theroadieclinic.com/", desc:"Provides mental health, recovery, healthcare navigation, and peer-support resources tailored to life on the road for touring crew and their families. Building a physical space in Niles, Michigan where crew can access therapy, recovery resources, education, and temporary housing.", tags:["mentalhealth","community"], note:"" },
+  { name:"The Wavelength Collective", url:"https://www.instagram.com/thewavelengthcollective/", desc:"A space dedicated to highlighting women who thrive behind the scenes of the music industry.", tags:["community","women"], note:"" },
+  { name:"Touring Professionals Alliance", url:"https://www.touringprofessionals.com/", desc:"A 501(c)(3) nonprofit connecting touring music professionals and their families with mental health, wellness, and industry resources tailored to the unique demands of life on the road.", tags:["mentalhealth","community","live"], note:"" },
+  { name:"VOX Program — NIVF", url:"https://www.nivf.org/vox", desc:"Venue Operations eXperience: paid 8-week internships plus 3-month mentorship at independent venues for POC, women, LGBTQ+, and people with disabilities. Tracks in digital marketing and front-of-house/production.", tags:["mentorship","live","education","women","lgbtq","disability"], note:"National Independent Venue Foundation" },
+  { name:"Volunteer Lawyers for the Arts", url:"https://vlany.org/", desc:"Since 1969, pioneering arts-related legal aid and educational programs about legal and business issues affecting artists and arts organizations, connecting creatives with pro bono legal services.", tags:["resource","advocacy"], note:"" },
+  { name:"We Are Moving the Needle", url:"https://www.wearemovingtheneedle.org/", desc:"Creating measurable change for women in the recording industry.", tags:["advocacy","women"], note:"" },
+  { name:"We Make Noise", url:"", desc:"Harnessing the power of music and technology to advance global gender equity, equipping communities with tools that cultivate limitless potential.", tags:["community","advocacy","women","nonbinary"], note:"FKA Beatz by Girlz" },
+  { name:"Women in CTRL", url:"https://womeninctrl.com/", desc:"A non-profit music development organisation advancing gender equality by developing, supporting, and championing music creators from under-represented groups.", tags:["community","advocacy","women","nonbinary"], note:"" },
+  { name:"Women in Music", url:"https://www.womeninmusic.org/", desc:"Established in 1985, advancing equality, visibility, and opportunities for women in the musical arts through education, support, empowerment, and recognition.", tags:["advocacy","community","women"], note:"" },
+  { name:"Women in Music Mentorship Program", url:"https://www.womeninmusic.org/mentorship", desc:"Structured one-on-one mentorship pairing women of all career levels across focus areas including Artists & Songwriters, Producers & Engineers, Managers, Agents, and Publishers.", tags:["mentorship","women"], note:"WIM membership required" },
+  { name:"Women That Rock", url:"https://www.womenthatrock.co/", desc:"Supporting the best up-and-coming women in music through daily artist features, articles, and events. Queer & GNC inclusive.", tags:["community","advocacy","women","queer","nonbinary","lgbtq"], note:"" },
+  { name:"Women's Audio Mission", url:"https://womensaudiomission.org/", desc:"Changing the face of sound by providing hands-on training, work experience, and job placement to women, girls, and gender-expansive individuals in creative technology.", tags:["audio","education","community","women","nonbinary"], note:"" },
+  { name:"Young Entertainment Professionals", url:"https://yepnetwork.org/", desc:"Creating a platform for the entertainment industry to thrive in a supportive and creative environment through networking events, showcases, mentorship, and educational development.", tags:["profdev","community","education"], note:"" },
+];
 
 // ─── STATE ────────────────────────────────────────────────────────────────────
-let resources   = [];
-let activeTypes  = new Set(); // empty = all
-let activeFocuses = new Set(); // empty = all
-let activeRole   = "all";
-let searchQuery  = "";
-
-// ─── CSV PARSER ───────────────────────────────────────────────────────────────
-function parseCSV(text) {
-  const lines = text.trim().split('\n');
-  const headers = parseCSVLine(lines[0]).map(h => h.trim().toLowerCase());
-  return lines.slice(1).map(line => {
-    const vals = parseCSVLine(line);
-    const obj = {};
-    headers.forEach((h, i) => obj[h] = (vals[i] || '').trim());
-    return obj;
-  });
-}
-
-function parseCSVLine(line) {
-  const result = [];
-  let current = '';
-  let inQuotes = false;
-  for (let i = 0; i < line.length; i++) {
-    const ch = line[i];
-    if (ch === '"') {
-      if (inQuotes && line[i+1] === '"') { current += '"'; i++; }
-      else inQuotes = !inQuotes;
-    } else if (ch === ',' && !inQuotes) {
-      result.push(current); current = '';
-    } else {
-      current += ch;
-    }
-  }
-  result.push(current);
-  return result;
-}
-
-// ─── FETCH DATA ───────────────────────────────────────────────────────────────
-async function loadData() {
-  document.getElementById('errorBanner').style.display = 'none';
-  document.getElementById('loadingScreen').classList.remove('done');
-  try {
-    const res = await fetch(SHEET_URL);
-    if (!res.ok) throw new Error('Network error');
-    const text = await res.text();
-    const rows = parseCSV(text);
-    resources = rows
-      .filter(r => r.name && r.name.trim())
-      .map(r => ({
-        name: r.name,
-        url: r.url || '',
-        desc: r.description || '',
-        type: (r.type || '').toLowerCase().trim(),
-        focus: r.focus ? r.focus.split('|').map(f => f.trim().toLowerCase()).filter(Boolean) : [],
-        role: (r.role || '').toLowerCase().trim() || null,
-        tracks: r.tracks ? r.tracks.split('|').map(t => t.trim()).filter(Boolean) : [],
-        who: r.who || '',
-        note: r.note || ''
-      }));
-    buildCards();
-    document.getElementById('loadingScreen').classList.add('done');
-  } catch (e) {
-    document.getElementById('loadingScreen').classList.add('done');
-    document.getElementById('errorBanner').style.display = 'block';
-    console.error('Failed to load sheet:', e);
-  }
-}
+let activeTags  = new Set();
+let searchQuery = "";
 
 // ─── RENDER ───────────────────────────────────────────────────────────────────
+const tagLabels = {
+  community:"Community", advocacy:"Advocacy", safety:"Safety",
+  audio:"Audio & Production", live:"Live & Events", mentalhealth:"Mental Health",
+  education:"Education", mentorship:"Mentorship", profdev:"Professional Dev",
+  resource:"Tools & Resources", women:"Women", nonbinary:"Non-Binary",
+  queer:"Queer", trans:"Trans", lgbtq:"LGBTQ+", bipoc:"BIPOC",
+  disability:"Disability", student:"Student", parenting:"Parenting"
+};
+
 function buildCards() {
   const grid = document.getElementById("grid");
   grid.innerHTML = "";
   const q = searchQuery.toLowerCase();
+
   const filtered = resources.filter(r => {
-    const matchType   = activeTypes.size === 0 || activeTypes.has(r.type);
-    const matchFocus  = activeFocuses.size === 0 || r.focus.some(f => activeFocuses.has(f));
-    const matchRole   = activeRole === "all" || !r.role || r.role === activeRole || r.role === "both";
-    const matchSearch = !q || r.name.toLowerCase().includes(q) || r.desc.toLowerCase().includes(q) || r.who.toLowerCase().includes(q);
-    return matchType && matchFocus && matchRole && matchSearch;
+    const matchTags = activeTags.size === 0 || [...activeTags].every(t => r.tags.includes(t));
+    const matchSearch = !q || r.name.toLowerCase().includes(q) || r.desc.toLowerCase().includes(q);
+    return matchTags && matchSearch;
   });
 
   const count = filtered.length;
-  const hasFilters = activeTypes.size > 0 || activeFocuses.size > 0 || activeRole !== "all" || searchQuery;
   document.getElementById("resultsCount").innerHTML = `<strong>${count}</strong> organization${count !== 1 ? "s" : ""}`;
   document.getElementById("headerCount").textContent = count;
-  document.getElementById("clearBtn").classList.toggle("visible", !!hasFilters);
+  document.getElementById("clearBtn").classList.toggle("visible", activeTags.size > 0 || !!searchQuery);
 
   if (count === 0) {
-    grid.innerHTML = `<div class="empty"><p>No results found. Try a different filter or search term.</p></div>`;
+    grid.innerHTML = `<div class="empty"><p>No results — try removing a filter.</p></div>`;
     return;
   }
 
   filtered.forEach((r, i) => {
     const card = document.createElement("div");
     card.className = "card";
-    card.style.animationDelay = `${i * 20}ms`;
-    const tagsHTML = r.focus.map(f => focusLabels[f] ? `<span class="ftag ftag-${f}">${focusLabels[f]}</span>` : '').join("");
-    const roleHTML = r.role && roleLabels[r.role] ? `<span class="rtag rtag-${r.role}">${roleLabels[r.role]}</span>` : "";
-    const tracksHTML = r.tracks.map(t => `<span style="font-size:10px;color:var(--muted);background:rgba(255,255,255,0.04);padding:2px 7px;border-radius:3px;">${t}</span>`).join("");
-    const whoHTML = r.who ? `<p style="font-size:11px;color:var(--muted);font-style:italic;line-height:1.5;"><span style="color:rgba(245,242,238,0.4);font-style:normal;font-size:9px;text-transform:uppercase;letter-spacing:0.06em;">Who: </span>${r.who}</p>` : "";
-    const typeLabel = typeLabels[r.type] || r.type;
+    card.style.animationDelay = `${Math.min(i, 20) * 20}ms`;
+    const tagsHTML = r.tags.map(t => tagLabels[t] ? `<span class="ctag ctag-${t}">${tagLabels[t]}</span>` : "").join("");
     card.innerHTML = `
-      <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;">
-        <span class="card-type type-${r.type}">${typeLabel}</span>
-        ${roleHTML}
-      </div>
+      <div class="card-tags-row">${tagsHTML}</div>
       <div class="card-name">${r.name}</div>
       <p class="card-desc">${r.desc}</p>
-      ${tracksHTML ? `<div class="card-tags" style="gap:4px;">${tracksHTML}</div>` : ""}
-      ${whoHTML}
-      ${tagsHTML ? `<div class="card-tags">${tagsHTML}</div>` : ""}
-      <div class="card-footer">
-        <span class="card-note">${r.note}</span>
-        ${r.url ? `<a class="card-link" href="${r.url}" target="_blank" rel="noopener">Visit <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>` : ""}
-      </div>`;
+      ${r.note ? `<div class="card-meta">${r.note}</div>` : ""}
+      ${r.url ? `<div class="card-footer"><a class="card-link" href="${r.url}" target="_blank" rel="noopener">Visit <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a></div>` : ""}
+    `;
     grid.appendChild(card);
   });
 }
 
-// ─── EVENTS ───────────────────────────────────────────────────────────────────
-
-function syncPills(groupId, activeSet, allAttr) {
-  document.querySelectorAll(`#${groupId} .pill`).forEach(p => {
-    const val = p.dataset[allAttr];
-    if (val === "all") {
-      p.classList.toggle("active", activeSet.size === 0);
-    } else {
-      p.classList.toggle("active", activeSet.has(val));
-    }
+function syncPills() {
+  document.querySelectorAll("#tagPills .pill").forEach(p => {
+    const t = p.dataset.tag;
+    if (t === "all") p.classList.toggle("active", activeTags.size === 0);
+    else p.classList.toggle("active", activeTags.has(t));
   });
 }
 
-document.getElementById("typePills").addEventListener("click", e => {
-  const btn = e.target.closest("[data-type]"); if (!btn) return;
-  const val = btn.dataset.type;
-  if (val === "all") {
-    activeTypes.clear();
-  } else {
-    if (activeTypes.has(val)) activeTypes.delete(val);
-    else activeTypes.add(val);
-  }
-  syncPills("typePills", activeTypes, "type");
-  buildCards();
-});
-
-document.getElementById("focusPills").addEventListener("click", e => {
-  const btn = e.target.closest("[data-focus]"); if (!btn) return;
-  const val = btn.dataset.focus;
-  if (val === "all") {
-    activeFocuses.clear();
-  } else {
-    if (activeFocuses.has(val)) activeFocuses.delete(val);
-    else activeFocuses.add(val);
-  }
-  syncPills("focusPills", activeFocuses, "focus");
-  buildCards();
-});
-
-document.getElementById("rolePills").addEventListener("click", e => {
-  const btn = e.target.closest("[data-role]"); if (!btn) return;
-  document.querySelectorAll("#rolePills .pill").forEach(p => p.classList.remove("active"));
-  btn.classList.add("active"); activeRole = btn.dataset.role; buildCards();
+// ─── EVENTS ───────────────────────────────────────────────────────────────────
+document.getElementById("tagPills").addEventListener("click", e => {
+  const btn = e.target.closest("[data-tag]"); if (!btn) return;
+  const t = btn.dataset.tag;
+  if (t === "all") { activeTags.clear(); }
+  else { activeTags.has(t) ? activeTags.delete(t) : activeTags.add(t); }
+  syncPills(); buildCards();
 });
 
 document.getElementById("clearBtn").addEventListener("click", () => {
-  activeTypes.clear();
-  activeFocuses.clear();
-  activeRole = "all";
-  searchQuery = "";
+  activeTags.clear(); searchQuery = "";
   document.getElementById("search").value = "";
-  syncPills("typePills", activeTypes, "type");
-  syncPills("focusPills", activeFocuses, "focus");
-  document.querySelectorAll("#rolePills .pill").forEach(p => p.classList.toggle("active", p.dataset.role === "all"));
-  buildCards();
+  syncPills(); buildCards();
 });
 
 let debounce;
@@ -428,9 +366,8 @@ document.getElementById("search").addEventListener("input", e => {
 });
 
 // ─── INIT ─────────────────────────────────────────────────────────────────────
-syncPills("typePills", activeTypes, "type");
-syncPills("focusPills", activeFocuses, "focus");
-loadData();
+syncPills();
+buildCards();
 </script>
 </body>
 </html>
