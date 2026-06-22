@@ -390,8 +390,11 @@ function buildCards() {
       img.height = 32;
       img.style.cssText = "width:32px;height:32px;object-fit:contain;display:block;";
       img.addEventListener("load", function() {
-        logoWrap.textContent = "";
-        logoWrap.appendChild(img);
+        if (img.naturalWidth > 16) {
+          logoWrap.textContent = "";
+          logoWrap.appendChild(img);
+        }
+        // if naturalWidth is 16 or less it's Google's generic grey globe — keep the initial
       });
       img.addEventListener("error", function() {
         logoWrap.textContent = initial;
