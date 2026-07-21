@@ -26,10 +26,11 @@
 
   /* FILTER */
   .filter-section { padding: 18px 48px; border-bottom: 1px solid var(--border); display: flex; flex-direction: column; gap: 10px; position: sticky; top: 0; z-index: 100; background: rgba(10,10,10,0.95); backdrop-filter: blur(16px); }
-  .filter-row { display: flex; align-items: center; gap: 10px; min-width: 0; }
-  .filter-label { font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); font-weight: 500; white-space: nowrap; min-width: 52px; flex-shrink: 0; }
-  .filter-pills { display: flex; gap: 5px; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; flex: 1; min-width: 0; padding-bottom: 2px; }
-  .filter-pills::-webkit-scrollbar { display: none; }
+  .filter-hint { font-size: 11px; color: var(--muted); font-weight: 300; }
+  .filter-hint strong { color: var(--white); font-weight: 500; }
+  .filter-row { display: flex; align-items: flex-start; gap: 10px; min-width: 0; }
+  .filter-label { font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); font-weight: 500; white-space: nowrap; min-width: 52px; flex-shrink: 0; padding-top: 6px; }
+  .filter-pills { display: flex; flex-wrap: wrap; gap: 6px; flex: 1; min-width: 0; }
   .pill { padding: 5px 12px; border-radius: 100px; font-size: 11px; font-weight: 400; cursor: pointer; transition: all 0.15s ease; border: 1px solid var(--border); background: transparent; color: var(--muted); white-space: nowrap; flex-shrink: 0; }
   .pill:hover { border-color: rgba(245,242,238,0.3); color: var(--white); }
   .pill.active { color: #fff; }
@@ -55,10 +56,13 @@
   .pill[data-tag="parenting"].active     { background:#b48b2d; border-color:#b48b2d; }
   .pill[data-tag="jobs"].active          { background:#2d7a4a; border-color:#2d7a4a; }
   .pill[data-tag="sustainability"].active{ background:#3a7a2a; border-color:#3a7a2a; }
+  .pill[data-tag="generalhealth"].active  { background:#1e8a6e; border-color:#1e8a6e; }
+  .pill[data-tag="freelancers"].active    { background:#5a6b8c; border-color:#5a6b8c; }
+  .pill[data-tag="entrepreneurs"].active  { background:#b8752d; border-color:#b8752d; }
   .pill[data-tag="all"].active           { background:rgba(245,242,238,0.12); border-color:rgba(245,242,238,0.25); color:var(--white); }
 
   /* SEARCH */
-  .search-wrap { position: relative; flex-shrink: 0; margin-left: auto; }
+  .search-wrap { position: relative; flex-shrink: 0; margin-left: auto; margin-top: 1px; }
   .search-wrap svg { position: absolute; left: 11px; top: 50%; transform: translateY(-50%); width: 13px; height: 13px; stroke: var(--muted); }
   #search { background: rgba(255,255,255,0.04); border: 1px solid var(--border); border-radius: 100px; padding: 6px 14px 6px 30px; color: var(--white); font-family: 'DM Sans', sans-serif; font-size: 12px; width: 190px; outline: none; transition: border-color 0.2s; }
   #search::placeholder { color: var(--muted); }
@@ -104,6 +108,9 @@
   .ctag-parenting    { background: rgba(180,139,45,0.1);  color: #e0c070; }
   .ctag-jobs         { background: rgba(45,122,74,0.12);  color: #50c880; }
   .ctag-sustainability { background: rgba(58,122,42,0.12); color: #70c050; }
+  .ctag-generalhealth { background: rgba(30,138,110,0.12); color: #40c8a0; }
+  .ctag-freelancers   { background: rgba(90,107,140,0.12); color: #93a3c8; }
+  .ctag-entrepreneurs { background: rgba(184,117,45,0.12); color: #e0a060; }
 
   /* MEMBERSHIP BADGE */
   .card-membership { font-size: 10px; letter-spacing: 0.08em; padding: 2px 8px; border-radius: 3px; width: fit-content; }
@@ -141,7 +148,8 @@
   @media (max-width: 640px) {
     header, .filter-section, .results-bar, .grid, footer { padding-left: 20px; padding-right: 20px; }
     .grid { grid-template-columns: 1fr; }
-    .search-wrap { margin-left: 0; width: 100%; }
+    .filter-row { flex-wrap: wrap; }
+    .search-wrap { margin-left: 0; width: 100%; order: 3; }
     #search { width: 100%; }
     .header-count { display: none; }
   }
@@ -160,31 +168,35 @@
 </header>
 
 <div class="filter-section" role="search" aria-label="Filter organizations">
+  <div class="filter-hint">Tap any tags to filter — <strong>you can select as many as you like</strong>, they'll combine together.</div>
   <div class="filter-row">
     <span class="filter-label" aria-hidden="true">Filter</span>
-    <div class="filter-pills" id="tagPills" role="group" aria-label="Filter tags">
+    <div class="filter-pills" id="tagPills" role="group" aria-label="Filter tags — select any number to combine">
       <button class="pill active" data-tag="all">All</button>
-      <button class="pill" data-tag="community">Community</button>
       <button class="pill" data-tag="advocacy">Advocacy</button>
-      <button class="pill" data-tag="safety">Safety</button>
       <button class="pill" data-tag="audio">Audio & Production</button>
+      <button class="pill" data-tag="bipoc">BIPOC</button>
+      <button class="pill" data-tag="community">Community</button>
+      <button class="pill" data-tag="disability">Disability</button>
+      <button class="pill" data-tag="education">Education</button>
+      <button class="pill" data-tag="entrepreneurs">For Entrepreneurs</button>
+      <button class="pill" data-tag="student">For Students</button>
+      <button class="pill" data-tag="freelancers">Freelancers / Consultants</button>
+      <button class="pill" data-tag="generalhealth">General Health</button>
+      <button class="pill" data-tag="jobs">Job Listings</button>
+      <button class="pill" data-tag="lgbtq">LGBTQ+</button>
       <button class="pill" data-tag="live">Live & Events</button>
       <button class="pill" data-tag="mentalhealth">Mental Health</button>
-      <button class="pill" data-tag="education">Education</button>
       <button class="pill" data-tag="mentorship">Mentorship</button>
-      <button class="pill" data-tag="profdev">Professional Dev</button>
-      <button class="pill" data-tag="resource">Tools & Resources</button>
-      <button class="pill" data-tag="women">Women</button>
       <button class="pill" data-tag="nonbinary">Non-Binary</button>
-      <button class="pill" data-tag="queer">Queer</button>
-      <button class="pill" data-tag="trans">Trans</button>
-      <button class="pill" data-tag="lgbtq">LGBTQ+</button>
-      <button class="pill" data-tag="bipoc">BIPOC</button>
-      <button class="pill" data-tag="disability">Disability</button>
-      <button class="pill" data-tag="student">Student</button>
       <button class="pill" data-tag="parenting">Parenting</button>
-      <button class="pill" data-tag="jobs">Job Listings</button>
+      <button class="pill" data-tag="profdev">Professional Development</button>
+      <button class="pill" data-tag="queer">Queer</button>
+      <button class="pill" data-tag="safety">Safety</button>
       <button class="pill" data-tag="sustainability">Sustainability</button>
+      <button class="pill" data-tag="resource">Tools & Resources</button>
+      <button class="pill" data-tag="trans">Trans</button>
+      <button class="pill" data-tag="women">Women</button>
     </div>
     <div class="search-wrap">
       <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -214,15 +226,16 @@ const resources = [
   { name:"24/7 Artists", url:"https://247artists.com/", desc:"A comprehensive ecosystem for independent artists and industry professionals, combining music business education, resources, and a global network to help creatives build sustainable careers.", tags:["resource","community","education","profdev"], membership:"", note:"" },
   { name:"A2IM (American Association of Independent Music)", url:"https://a2im.org/", desc:"A 501(c)(6) trade organization representing 700+ independent US music labels advocating for independent artists and labels in the marketplace, media, and on Capitol Hill.", tags:["advocacy","community"], membership:"Paid", note:"" },
   { name:"Alliance for Women Film Composers", url:"https://theawfc.com/", desc:"A community of composers and colleagues supporting and celebrating women composers through advocacy and education across film, TV, video games, and multimedia.", tags:["audio","advocacy","community","women"], membership:"Free", note:"" },
+  { name:"Alternative Classical", url:"https://www.alternativeclassical.co.uk/", desc:"A UK organisation and online magazine pioneering positive change in the classical music industry, offering a jobs board, funding listings, event recommendations, and interviews with industry innovators.", tags:["resource","community","education","jobs"], membership:"", note:"UK-based" },
   { name:"Amplify Her Voice", url:"https://www.amplifyhervoice.org/", desc:"Championing gender equality in the music industry and advancing women's careers through events, programs, and community.", tags:["advocacy","community","women"], membership:"", note:"" },
   { name:"Association of Music Producers (AMP)", url:"https://www.ampnow.com/", desc:"Founded in 1998 to educate members and the wider advertising, production, and media communities on all facets of music production through events, resources, and advocacy.", tags:["community","advocacy","profdev"], membership:"Paid", note:"" },
   { name:"Asian American Collective", url:"https://www.asianamericancollective.org", desc:"A community for Asian Americans in music, entertainment, and creative spaces — connecting, mentoring, and inspiring the next generation of industry professionals through mentorship programs, weekly job listings, events, and community building.", tags:["community","mentorship","profdev","jobs","bipoc"], membership:"Free", note:"" },
   { name:"American Society of Music Arrangers and Composers (ASMAC)", url:"https://asmac.org/", desc:"Founded in 1938, promoting the art of music arranging, composition, orchestration, and music preparation through community building, online and in-person events, and educational programming for members worldwide.", tags:["audio","community","profdev","education"], membership:"Paid", note:"" },
   { name:"Audio Engineering Society (AES)", url:"https://www.aes.org/", desc:"The only professional society devoted exclusively to audio technology, uniting audio engineers, creative artists, scientists, and students worldwide since 1948.", tags:["audio","community","profdev"], membership:"Paid", note:"" },
   { name:"Able Artist Foundation (AAF)", url:"https://www.ableartist.org/", desc:"Serves creative adults with disabilities on fixed incomes, providing music development, education, and mentorship through artist-development training, plus 50%-off discounts on music software and hardware from partner vendors.", tags:["education","mentorship","resource","disability"], membership:"Free", note:"Must receive SSI/SSDI or equivalent to qualify" },
-  { name:"B.A.K. Play.Ground", url:"https://www.bigasskids.com/playground", desc:"A membership platform connecting artists, creatives, and music professionals through vetted hiring opportunities, music business education, and community.", tags:["resource","community","profdev"], membership:"Paid", note:"" },
-  { name:"BAK Pitch Perfect", url:"https://bakpitchperfect.org/", desc:"A business community for women entrepreneurs in the music industry — part of the B.A.K. Play.Ground ecosystem — connecting members through shared work opportunities, music business education, and industry dialogue.", tags:["community","profdev","women"], membership:"Free", note:"" },
-  { name:"BAPAM (British Association for Performing Arts Medicine)", url:"https://www.bapam.org.uk/", desc:"Provides free or low-cost clinical health services for performing artists across the UK, including medical assessments for physical issues like injuries, vocal problems, mental health, hearing, and other work-related health conditions.", tags:["mentalhealth"], membership:"", note:"UK-based" },
+  { name:"B.A.K. Play.Ground", url:"https://www.bigasskids.com/playground", desc:"A membership platform connecting artists, creatives, and music professionals through vetted hiring opportunities, music business education, and community.", tags:["resource","community","profdev","freelancers"], membership:"Paid", note:"" },
+  { name:"BAK Pitch Perfect", url:"https://bakpitchperfect.org/", desc:"A business community for women entrepreneurs in the music industry — part of the B.A.K. Play.Ground ecosystem — connecting members through shared work opportunities, music business education, and industry dialogue.", tags:["community","profdev","women","freelancers","entrepreneurs"], membership:"Free", note:"" },
+  { name:"BAPAM (British Association for Performing Arts Medicine)", url:"https://www.bapam.org.uk/", desc:"Provides free or low-cost clinical health services for performing artists across the UK, including medical assessments for physical issues like injuries, vocal problems, mental health, hearing, and other work-related health conditions.", tags:["mentalhealth","generalhealth"], membership:"", note:"UK-based" },
   { name:"Black Music Action Coalition (BMAC)", url:"https://www.bmacoalition.org/", desc:"An advocacy organization formed to address systemic racism within the music business, advocating on behalf of Black artists, songwriters, producers, managers, agents, executives, lawyers, and other industry professionals. Also offers scholarships.", tags:["advocacy","community","bipoc"], membership:"", note:"" },
   { name:"Backline", url:"https://backline.care/", desc:"Mental health and wellness resources for music industry professionals and their families.", tags:["mentalhealth","community"], membership:"", note:"" },
   { name:"Book More Women", url:"https://www.bookmorewomen.com/", desc:"Visualizing and addressing the pervasive gender imbalance at music festivals, tracking progress towards better representation on future lineups.", tags:["advocacy","women"], membership:"", note:"" },
@@ -232,7 +245,7 @@ const resources = [
   { name:"Diversify the Stage", url:"https://www.diversifythestage.org/", desc:"A 501(c)3 providing greater access to careers in live music, events, and touring for historically marginalized and underrepresented communities.", tags:["live","advocacy","community","women","nonbinary","lgbtq","bipoc"], membership:"", note:"" },
   { name:"Donne, Women in Music", url:"https://donne-uk.org/", desc:"A global voice for women in music, empowering women and reshaping the music industry through advocacy, community building, and celebrating female creativity.", tags:["advocacy","community","women"], membership:"", note:"UK-based" },
   { name:"ECCHO Live", url:"https://eccholive.com/", desc:"Human resources for live event professionals. Their All Access program pays for 4 therapy or coaching sessions per year for people who work in live entertainment. All Access Onsite provides free counseling at major festivals and events across the US.", tags:["mentalhealth","live"], membership:"", note:"" },
-  { name:"Entertainment Community Fund", url:"https://entertainmentcommunity.org/", desc:"Provides performing-arts and entertainment professionals with health and wellness support, career and life services, affordable housing, emergency financial assistance, and other social services. Formerly The Actors Fund.", tags:["mentalhealth","resource"], membership:"", note:"" },
+  { name:"Entertainment Community Fund", url:"https://entertainmentcommunity.org/", desc:"Provides performing-arts and entertainment professionals with health and wellness support, career and life services, affordable housing, emergency financial assistance, and other social services. Formerly The Actors Fund.", tags:["mentalhealth","resource","generalhealth"], membership:"", note:"" },
   { name:"ESEA Music", url:"https://www.eseamusic.co.uk", desc:"A community-led, non-profit founded by UK-based East and Southeast Asian (ESEA) music industry professionals and artists. With 500+ members, ESEA Music is dedicated to advancing the representation of ESEA professionals and artists across the UK music industry.", tags:["community","advocacy","bipoc"], membership:"Free", note:"UK-based" },
   { name:"EqualizeHer", url:"https://www.equalizeher.org/", desc:"An initiative to achieve equal representation of women across all aspects of the music industry — from recording studios to stages to board rooms.", tags:["advocacy","women"], membership:"", note:"" },
   { name:"Family Alliance in Music (FAM)", url:"https://www.familyallianceinmusic.org/", desc:"An organization dedicated to supporting music industry professionals who are also parents and caregivers, providing resources, community, and advocacy for family-friendly workplaces in music.", tags:["advocacy","community","parenting"], membership:"", note:"" },
@@ -252,37 +265,39 @@ const resources = [
   { name:"Grammy U", url:"https://www.recordingacademy.com/membership/grammy-u", desc:"Recording Academy program for college students pursuing careers in the music industry.", tags:["education","profdev","student"], membership:"Free", note:"Must be enrolled in college" },
   { name:"Grammy U Mentorship Program", url:"https://www.recordingacademy.com/membership/grammy-u", desc:"Annual 6-month one-on-one program pairing college students with Recording Academy voting members across tracks including Producing & Engineering, Performance, Songwriting, Music Business, and Entertainment Law.", tags:["mentorship","education","student"], membership:"Free", note:"Presented by Amazon Music" },
   { name:"Gritty in Pink", url:"https://www.grittyinpink.co/", desc:"A community of diverse female creators working in the music industry, providing connection, access, and opportunities through an inclusive network.", tags:["community","women","queer","lgbtq"], membership:"", note:"" },
-  { name:"HAAM (Health Alliance for Austin Musicians)", url:"https://www.myhaam.org/", desc:"Provides Austin-area musicians access to affordable health, wellness, and prevention services including insurance assistance, medical, dental, vision, and mental health care.", tags:["mentalhealth"], membership:"", note:"Austin-based" },
-  { name:"Help Musicians / Music Minds Matter", url:"https://www.helpmusicians.org.uk/", desc:"Help Musicians provides financial, health, and career support to professional musicians. Its service Music Minds Matter offers confidential mental health support and a 24/7 helpline for people working in music.", tags:["mentalhealth","resource"], membership:"", note:"UK-based" },
+  { name:"HAAM (Health Alliance for Austin Musicians)", url:"https://www.myhaam.org/", desc:"Provides Austin-area musicians access to affordable health, wellness, and prevention services including insurance assistance, medical, dental, vision, and mental health care.", tags:["mentalhealth","generalhealth"], membership:"", note:"Austin-based" },
+  { name:"Help Musicians / Music Minds Matter", url:"https://www.helpmusicians.org.uk/", desc:"Help Musicians provides financial, health, and career support to professional musicians. Its service Music Minds Matter offers confidential mental health support and a 24/7 helpline for people working in music.", tags:["mentalhealth","resource","generalhealth"], membership:"", note:"UK-based" },
   { name:"Hire Survivors Hollywood", url:"https://hiresurvivorshollywood.org/", desc:"Working to end career retaliation against survivors of sexual violence in the entertainment industry.", tags:["safety","advocacy","women","lgbtq"], membership:"", note:"" },
+  { name:"Hyperwknd", url:"https://www.hyperwknd.org/", desc:"A 501(c)(3) nonprofit and bi-monthly songwriting camp community for women and gender-nonconforming music producers, songwriters, and artists, offering camps, workshops, mentorship, and education.", tags:["community","mentorship","education","women","nonbinary"], membership:"", note:"" },
   { name:"jump.global", url:"https://www.jump.global/", desc:"A global music business community focused on personal and professional growth, bringing together music business leaders through community events, programming, and an annual Summit.", tags:["community","profdev"], membership:"Paid", note:"" },
   { name:"Key Change Mentorship", url:"https://www.keychange.eu/", desc:"Keychange connects underrepresented genders in music with mentors to support career development, festival bookings, and visibility.", tags:["mentorship","women","nonbinary","trans"], membership:"", note:"" },
   { name:"Keychange U.S.", url:"https://www.keychangeus.com/", desc:"Keychange U.S. is a charitable non-profit organization championing gender equity and inclusion within the music industry.", tags:["advocacy","community","women","nonbinary","trans"], membership:"", note:"" },
   { name:"Latin Grammy Cultural Foundation Mentorship", url:"https://www.latingrammyculturalfoundation.org/en/what-we-do/mentorship", desc:"Pairs young women seeking careers in music and entertainment with senior Latin music industry executives for one-on-one virtual mentoring. In partnership with She Is The Music.", tags:["mentorship","women"], membership:"", note:"In partnership with SITM" },
   { name:"Live Nation Women", url:"https://livenationwomenfund.livenation.com/", desc:"A global, early-stage fund improving gender equality by investing in female-founded live music businesses and female entrepreneurs across the live music space.", tags:["live","advocacy","women"], membership:"", note:"" },
   { name:"Live Out L!ve Foundation", url:"https://www.liveoutlive.com/lol-foundation", desc:"A 501C3 organization amplifying commitment to open doors and set the stage for the next generation of diverse talent.", tags:["live","community","advocacy","women","lgbtq"], membership:"", note:"" },
-  { name:"Lone Wolves Club", url:"https://lonewolvesclub.co/", desc:"A 501(c)(3) nonprofit community for music, tech, and entertainment professionals — born from disruption, built on connection. Turns isolation into collaboration by fostering skill-building and opportunity.", tags:["community","profdev","jobs"], membership:"Free", note:"Job listings available to members — free to sign up" },
+  { name:"Lone Wolves Club", url:"https://lonewolvesclub.co/", desc:"A 501(c)(3) nonprofit community for music, tech, and entertainment professionals — born from disruption, built on connection. Turns isolation into collaboration by fostering skill-building and opportunity.", tags:["community","profdev","jobs","freelancers"], membership:"Free", note:"Job listings available to members — free to sign up" },
   { name:"Maestra Music Mentorship", url:"https://maestramusic.org/mentorship/", desc:"A 6-month program connecting early-career mentees (21+) interested in making music for theatre with professional women and nonbinary people currently working in the field.", tags:["mentorship","women","nonbinary"], membership:"", note:"Applications open annually" },
   { name:"Mamas in Music", url:"https://mamasinmusic.org/", desc:"A non-profit supporting mothers working in the music industry, building community, hosting song camps and events, and creating a village for mamas navigating a career in music.", tags:["community","advocacy","women","parenting"], membership:"", note:"" },
   { name:"MINT Talent Group Women's Mentorship", url:"https://www.minttalentgroup.com/mentorship", desc:"Virtual mentorship program creating a safe space for women and nonbinary leaders in live music, designed to empower future leaders through open dialogue and education around live touring topics.", tags:["mentorship","live","women","nonbinary","lgbtq"], membership:"", note:"Ages 18+" },
   { name:"Minding Creative Minds", url:"https://mindingcreativeminds.ie/", desc:"Irish organization offering free, confidential 24/7 mental health, wellbeing, legal, financial, career, and counselling support services to people working in the creative industries.", tags:["mentalhealth","resource"], membership:"", note:"Ireland-based" },
   { name:"Moms in Music", url:"https://www.momsinmusic.org/", desc:"A community and membership organization for moms working in the music industry, offering events, programs, and peer support for navigating parenthood and a music career simultaneously.", tags:["community","women","parenting"], membership:"Paid", note:"" },
   { name:"Music Business Association", url:"https://musicbiz.org/", desc:"Representing the full music business ecosystem through the annual Music Biz conference, educational resources, webinars, and the #NEXTGEN_NOW program for emerging professionals.", tags:["advocacy","profdev","community"], membership:"Paid", note:"" },
-  { name:"Music Health Alliance", url:"https://musichealthalliance.com/", desc:"Helps music industry professionals access and navigate affordable healthcare, health insurance, and mental health resources by providing free advocacy, guidance, and connections to medical services.", tags:["mentalhealth","resource"], membership:"", note:"" },
+  { name:"Music Health Alliance", url:"https://musichealthalliance.com/", desc:"Helps music industry professionals access and navigate affordable healthcare, health insurance, and mental health resources by providing free advocacy, guidance, and connections to medical services.", tags:["mentalhealth","resource","generalhealth"], membership:"", note:"" },
   { name:"Music Industry Therapist Collective", url:"https://www.musicindustrytherapists.com/", desc:"Global network of therapists with music industry experience providing mental health services tailored to the unique challenges of touring and working in the music business.", tags:["mentalhealth","community"], membership:"", note:"" },
   { name:"Music Managers Forum-US (MMF-US)", url:"https://www.mmfus.com/", desc:"A 501(c)(6) trade association for music managers and self-managed artists, established in 1993. Supports a nationwide network across nine US Chapters, advancing manager and artist interests across live performance, publishing, recording, streaming, and copyright through programming, professional development, and advocacy.", tags:["advocacy","community","profdev"], membership:"Paid", note:"" },
   { name:"Music Production for Women", url:"https://musicproductionforwomen.com/front-page", desc:"Encouraging and empowering more women in music production and technology through education, community support, and visible role models.", tags:["audio","education","community","women"], membership:"", note:"" },
+  { name:"Music Safety Alliance", url:"https://www.musicsafetyalliance.org/", desc:"A nonprofit working toward a safer, healthier, and more sustainable music industry through education, advocacy, resources, and community-driven initiatives.", tags:["safety","advocacy","education","community","resource"], membership:"", note:"" },
   { name:"Music Support", url:"https://www.musicsupport.org/", desc:"Provides support for UK musicians with mental health, addiction, and wellbeing challenges through a confidential helpline, counseling, training, safe spaces at events, and support services.", tags:["mentalhealth","community"], membership:"", note:"UK-based" },
   { name:"Music Sustainability Alliance", url:"https://www.musicsustainability.org/", desc:"Empowering the music industry to embrace sustainability in general, and the climate crisis in particular, across its operations and supply chains and in engaging fans.", tags:["advocacy","community","sustainability"], membership:"", note:"" },
-  { name:"MusiCares", url:"https://www.musicares.org/", desc:"Provides a nationwide safety net of critical health, mental health, addiction recovery, financial aid, and emergency support services to music industry professionals in need.", tags:["mentalhealth","resource"], membership:"", note:"" },
+  { name:"MusiCares", url:"https://www.musicares.org/", desc:"Provides a nationwide safety net of critical health, mental health, addiction recovery, financial aid, and emergency support services to music industry professionals in need.", tags:["mentalhealth","resource","generalhealth"], membership:"", note:"" },
   { name:"Musicians Foundation", url:"https://www.musiciansfoundation.org/", desc:"Provides direct financial grants to professional musicians and their families to help cover essential bills and expenses during times of need, crisis, or transition.", tags:["mentalhealth","resource"], membership:"", note:"Since 1914" },
-  { name:"Musicians Treatment Fund", url:"https://mtfusa.org/", desc:"Provides professional musicians who can't afford care with free or low-cost specialized orthopedic treatment for shoulder, elbow, and hand injuries.", tags:["mentalhealth","disability"], membership:"", note:"" },
+  { name:"Musicians Treatment Fund", url:"https://mtfusa.org/", desc:"Provides professional musicians who can't afford care with free or low-cost specialized orthopedic treatment for shoulder, elbow, and hand injuries.", tags:["mentalhealth","disability","generalhealth"], membership:"", note:"" },
   { name:"Nashville Songwriters Association International (NSAI)", url:"https://nashvillesongwriters.com/", desc:"The world's largest not-for-profit songwriters trade association with 5,000+ members across the US and beyond, dedicated to protecting the rights of aspiring and professional songwriters in all genres.", tags:["advocacy","community","profdev"], membership:"Paid", note:"" },
   { name:"New Music USA", url:"https://newmusicusa.org/", desc:"Committed to the vitality of the new music community, supporting composers, performers, presenters, producers, and fans through grants, resources, and a platform for discovery and connection.", tags:["community","resource","advocacy"], membership:"", note:"" },
-  { name:"New Orleans Musicians' Clinic & Assistance Foundation", url:"https://neworleansmusiciansclinic.org/", desc:"Provides low-cost comprehensive healthcare, social services, and wellness support tailored to the needs of Louisiana-based musicians.", tags:["mentalhealth"], membership:"", note:"New Orleans-based" },
+  { name:"New Orleans Musicians' Clinic & Assistance Foundation", url:"https://neworleansmusiciansclinic.org/", desc:"Provides low-cost comprehensive healthcare, social services, and wellness support tailored to the needs of Louisiana-based musicians.", tags:["mentalhealth","generalhealth"], membership:"", note:"New Orleans-based" },
   { name:"No Creeps!", url:"https://www.sharpedgesrecords.com/nocreeps", desc:"A growing movement and coalition of music professionals dedicated to industry-wide safety, mental health, and inclusivity, hosting events, providing resources, and showcasing artists passionate about making the music industry safer.", tags:["safety","advocacy","community","women","lgbtq"], membership:"", note:"" },
   { name:"Noise For Now", url:"https://noisefornow.org/", desc:"Enabling artists and entertainers to connect with and support grassroots organizations working in Reproductive Justice, including abortion access.", tags:["advocacy","women","queer","lgbtq"], membership:"", note:"" },
-  { name:"O+ Festival", url:"https://opositivefestival.org/", desc:"Annual art, music, and wellness festival and year-round exchange clinic in Kingston, NY where underinsured artists and musicians can trade their creative work for healthcare and wellness services.", tags:["mentalhealth","community","live"], membership:"", note:"Kingston, NY" },
+  { name:"O+ Festival", url:"https://opositivefestival.org/", desc:"Annual art, music, and wellness festival and year-round exchange clinic in Kingston, NY where underinsured artists and musicians can trade their creative work for healthcare and wellness services.", tags:["mentalhealth","community","live","generalhealth"], membership:"", note:"Kingston, NY" },
   { name:"Our Music My Body", url:"https://www.ourmusicmybody.org/", desc:"A grassroots campaign working with festival and venue staff, musicians, and fans to raise awareness about sexual harassment in music spaces and create fun, consensual music experiences for all. Now housed by Resilience.", tags:["safety","advocacy","community"], membership:"", note:"" },
   { name:"Porter's Call", url:"https://www.porterscall.org/", desc:"Provides free, confidential support, guidance, and counseling to touring and recording artists and their partners.", tags:["mentalhealth"], membership:"", note:"" },
   { name:"Production Music Association (PMA)", url:"https://pmamusic.com/", desc:"Representing production music publishers and composers, providing education on industry trends, professional development, and advocacy for performance royalty collection.", tags:["community","advocacy","profdev","audio"], membership:"Paid", note:"" },
@@ -298,25 +313,26 @@ const resources = [
   { name:"She Is The Music", url:"https://sheisthemusic.org/", desc:"Advancing equality, inclusivity, and opportunity for women in music.", tags:["advocacy","community","women"], membership:"", note:"" },
   { name:"She Is The Music Mentorship Program", url:"https://sheisthemusic.org/", desc:"Connects young women with industry professionals actively working in touring, producing, songwriting, and more.", tags:["mentorship","women"], membership:"", note:"" },
   { name:"She Said So", url:"https://www.shesaid.so", desc:"A global community of women, gender nonconforming people, and allies in the music industry.", tags:["community","advocacy","women","nonbinary","queer","lgbtq"], membership:"Paid", note:"" },
-  { name:"Sight and Sound", url:"https://www.sightsoundcare.com/", desc:"Free vision care for musicians.", tags:["mentalhealth"], membership:"", note:"" },
+  { name:"Sight and Sound", url:"https://www.sightsoundcare.com/", desc:"Free vision care for musicians.", tags:["mentalhealth","generalhealth"], membership:"", note:"" },
   { name:"SIMS Foundation", url:"https://simsfoundation.org/", desc:"Provides affordable mental health care, substance-use recovery services, and counseling and treatment access for musicians, music industry professionals, and their families.", tags:["mentalhealth"], membership:"", note:"Austin-based" },
-  { name:"SMASH (Seattle Musicians Access to Sustainable Healthcare)", url:"https://www.smashseattle.org/", desc:"Helps working Seattle-area musicians access free or low-cost healthcare including mental health treatment, dental, vision, hearing, and primary care.", tags:["mentalhealth"], membership:"", note:"Seattle-based" },
+  { name:"SMASH (Seattle Musicians Access to Sustainable Healthcare)", url:"https://www.smashseattle.org/", desc:"Helps working Seattle-area musicians access free or low-cost healthcare including mental health treatment, dental, vision, hearing, and primary care.", tags:["mentalhealth","generalhealth"], membership:"", note:"Seattle-based" },
   { name:"Society of Professional Audio Recording Services (SPARS)", url:"https://www.spars.com/", desc:"A nonprofit association representing professionals in the US recording industry, offering networking, education, and industry advocacy.", tags:["audio","community","advocacy","profdev"], membership:"Paid", note:"" },
   { name:"SOLID (Supporters of Live Independent Diversity)", url:"https://www.solidmusic.org/", desc:"Improving the future of the music industry by strengthening professional relationships and educating a diverse group of future executives while serving the community.", tags:["profdev","advocacy","community","live"], membership:"", note:"" },
-  { name:"SONA (Songwriters of North America)", url:"https://www.wearesona.com/", desc:"Fights for fair pay, rights, education, and equity for songwriters in the music industry. Offers free Amazon One Medical memberships to members and their families.", tags:["advocacy","community","mentalhealth","women"], membership:"Paid", note:"Membership includes free Amazon One Medical" },
+  { name:"SONA (Songwriters of North America)", url:"https://www.wearesona.com/", desc:"Fights for fair pay, rights, education, and equity for songwriters in the music industry. Offers free Amazon One Medical memberships to members and their families.", tags:["advocacy","community","mentalhealth","women","generalhealth"], membership:"Paid", note:"Membership includes free Amazon One Medical" },
   { name:"SONA Foundation", url:"https://www.sonafoundation.com/", desc:"Provides songwriters with resources, programs, and funding in mental health, career development, and financial wellness.", tags:["mentalhealth","profdev","resource","women"], membership:"", note:"" },
-  { name:"Sound Healthcare", url:"https://soundhealthcare.org/", desc:"Provides insurance solutions and advocacy for entertainment professionals — helping musicians and industry workers find and navigate coverage options.", tags:["mentalhealth","resource"], membership:"", note:"" },
+  { name:"Sound Healthcare", url:"https://soundhealthcare.org/", desc:"Provides insurance solutions and advocacy for entertainment professionals — helping musicians and industry workers find and navigate coverage options.", tags:["mentalhealth","resource","generalhealth"], membership:"", note:"" },
   { name:"Soundcheck Collective", url:"https://www.soundcheckcollective.org/", desc:"A Canadian non-profit providing free mental health education and community-based programs for people working in music and live events.", tags:["mentalhealth","community","education"], membership:"", note:"Canada-based" },
-  { name:"SoundCheck Wellness", url:"https://soundcheckwellness.com/", desc:"A nonprofit providing financial assistance to musicians and tour support crew for health insurance premiums, mental health counseling, dental and vision care, and substance abuse treatment.", tags:["mentalhealth"], membership:"", note:"" },
+  { name:"SoundCheck Wellness", url:"https://soundcheckwellness.com/", desc:"A nonprofit providing financial assistance to musicians and tour support crew for health insurance premiums, mental health counseling, dental and vision care, and substance abuse treatment.", tags:["mentalhealth","generalhealth"], membership:"", note:"" },
   { name:"SoundGirls", url:"https://soundgirls.org/", desc:"Empowering the next generation of women in audio.", tags:["audio","community","education","women"], membership:"Free", note:"" },
   { name:"SoundGirls Online Mentoring", url:"https://soundgirls.org/soundgirls-online-mentoring/", desc:"Ongoing group mentoring program pairing SoundGirls members with professional audio engineers across recording, live sound, post-production, and audio manufacturing.", tags:["mentorship","audio","women"], membership:"Free", note:"SoundGirls membership required" },
-  { name:"Stagecare", url:"https://www.stagecare.com/", desc:"Healthcare made for music and entertainment professionals, offering tailored plans and coverage designed around the realities of touring and industry work.", tags:["mentalhealth","resource"], membership:"Paid", note:"" },
-  { name:"Sweet Relief Musicians Fund", url:"https://www.sweetrelief.org/", desc:"Provides emergency financial grants to professional musicians and music industry workers to help cover medical expenses and other needs during times of illness, disability, or hardship.", tags:["mentalhealth","resource","disability"], membership:"", note:"" },
+  { name:"Stagecare", url:"https://www.stagecare.com/", desc:"Healthcare made for music and entertainment professionals, offering tailored plans and coverage designed around the realities of touring and industry work.", tags:["mentalhealth","resource","generalhealth"], membership:"Paid", note:"" },
+  { name:"Sweet Relief Musicians Fund", url:"https://www.sweetrelief.org/", desc:"Provides emergency financial grants to professional musicians and music industry workers to help cover medical expenses and other needs during times of illness, disability, or hardship.", tags:["mentalhealth","resource","disability","generalhealth"], membership:"", note:"" },
   { name:"Symphonic Women Empowered", url:"https://symphonic.com/women-empowered/", desc:"A mentorship program empowering women in the music industry through guidance and professional development.", tags:["mentorship","profdev","women"], membership:"", note:"" },
   { name:"The Digilogue", url:"https://www.thedigilogue.com/career-listings", desc:"A diverse music and tech community of creators and industry professionals curating conversations around industry education, career resources, and artist discovery. Hosts a dedicated career listings board.", tags:["education","community","profdev","jobs"], membership:"", note:"" },
-  { name:"The Jazz Foundation", url:"https://jazzfoundation.org/pro-bono-medical/", desc:"Provides a pro bono network for uninsured musicians in health crisis.", tags:["mentalhealth","resource"], membership:"", note:"" },
+  { name:"The Jazz Foundation", url:"https://jazzfoundation.org/pro-bono-medical/", desc:"Provides a pro bono network for uninsured musicians in health crisis.", tags:["mentalhealth","resource","generalhealth"], membership:"", note:"" },
   { name:"The Photo Ladies", url:"https://www.thephotoladies.com/local-music-project", desc:"A collective of women and non-binary photographers bound by their love of music, supporting and representing one another in the world.", tags:["community","women","nonbinary"], membership:"", note:"" },
-  { name:"The Roadie Clinic", url:"https://theroadieclinic.com/", desc:"Provides mental health, recovery, healthcare navigation, and peer-support resources tailored to life on the road for touring crew and their families. Building a physical space in Niles, Michigan where crew can access therapy, recovery resources, education, and temporary housing.", tags:["mentalhealth","community"], membership:"", note:"" },
+  { name:"The Roadie Clinic", url:"https://theroadieclinic.com/", desc:"Provides mental health, recovery, healthcare navigation, and peer-support resources tailored to life on the road for touring crew and their families. Building a physical space in Niles, Michigan where crew can access therapy, recovery resources, education, and temporary housing.", tags:["mentalhealth","community","generalhealth"], membership:"", note:"" },
+  { name:"The Space Between Global CIC", url:"https://www.thespace-between.co.uk/", desc:"A UK community interest company offering holistic mental health and well-being support alongside career mentoring for musicians and creatives, founded by a music industry veteran.", tags:["mentalhealth","mentorship","profdev"], membership:"", note:"UK-based" },
   { name:"The Wavelength Collective", url:"https://www.instagram.com/thewavelengthcollective/", desc:"A space dedicated to highlighting women who thrive behind the scenes of the music industry.", tags:["community","women"], membership:"", note:"" },
   { name:"Touring Professionals Alliance", url:"https://www.touringprofessionals.com/", desc:"A 501(c)(3) nonprofit connecting touring music professionals and their families with mental health, wellness, and industry resources tailored to the unique demands of life on the road.", tags:["mentalhealth","community","live"], membership:"", note:"" },
   { name:"VOX Program — NIVF", url:"https://www.nivf.org/vox", desc:"Venue Operations eXperience: paid 8-week internships plus 3-month mentorship at independent venues for POC, women, LGBTQ+, and people with disabilities. Tracks in digital marketing and front-of-house/production.", tags:["mentorship","live","education","women","lgbtq","disability"], membership:"", note:"National Independent Venue Foundation" },
@@ -328,6 +344,7 @@ const resources = [
   { name:"Women in Music Mentorship Program", url:"https://www.womeninmusic.org/mentorship", desc:"Structured one-on-one mentorship pairing women of all career levels across focus areas including Artists & Songwriters, Producers & Engineers, Managers, Agents, and Publishers.", tags:["mentorship","women"], membership:"Paid", note:"WIM membership required" },
   { name:"Women That Rock", url:"https://www.womenthatrock.co/", desc:"Supporting the best up-and-coming women in music through daily artist features, articles, and events. Queer & GNC inclusive.", tags:["community","advocacy","women","queer","nonbinary","lgbtq"], membership:"", note:"" },
   { name:"Women's Audio Mission", url:"https://womensaudiomission.org/", desc:"Changing the face of sound by providing hands-on training, work experience, and job placement to women, girls, and gender-expansive individuals in creative technology.", tags:["audio","education","community","women","nonbinary"], membership:"", note:"" },
+  { name:"YCAT (Young Classical Artists Trust)", url:"https://www.ycat.co.uk/", desc:"A UK charity, founded in 1984, supporting the early careers of emerging classical musicians through auditions, free 1:1 funding advice, masterclasses, and career development resources.", tags:["education","mentorship","profdev","community","resource"], membership:"", note:"UK-based; artists join via audition" },
   { name:"Young Entertainment Professionals", url:"https://hpaonline.com/programs/young-entertainment-professionals//", desc:"The Young Entertainment Professionals (YEP) program nurtures the development of talented individuals at the start of their media and entertainment journey with mentoring and education, introductions to industry leaders, invitations to events, and access to resources that will further their careers. Through active participation in HPA, YEPs gain lifetime access to a community of peers and other professionals to help set the course of their careers in this industry..", tags:["profdev","community","education"], membership:"", note:"" },
 ];
 
@@ -339,11 +356,13 @@ let searchQuery = "";
 const tagLabels = {
   community:"Community", advocacy:"Advocacy", safety:"Safety",
   audio:"Audio & Production", live:"Live & Events", mentalhealth:"Mental Health",
-  education:"Education", mentorship:"Mentorship", profdev:"Professional Dev",
+  education:"Education", mentorship:"Mentorship", profdev:"Professional Development",
   resource:"Tools & Resources", women:"Women", nonbinary:"Non-Binary",
   queer:"Queer", trans:"Trans", lgbtq:"LGBTQ+", bipoc:"BIPOC",
-  disability:"Disability", student:"Student", parenting:"Parenting",
-  jobs:"Job Listings", sustainability:"Sustainability"
+  disability:"Disability", student:"For Students", parenting:"Parenting",
+  jobs:"Job Listings", sustainability:"Sustainability",
+  generalhealth:"General Health", freelancers:"Freelancers / Consultants",
+  entrepreneurs:"For Entrepreneurs"
 };
 
 function buildCards() {
